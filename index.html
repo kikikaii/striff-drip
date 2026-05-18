@@ -1,1967 +1,428 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="STRIFFDRIP — Good Crip. Good Drip. Authentic streetwear reseller. Wide-leg, baggy, and archive denim. DM to buy." />
-  <meta name="theme-color" content="#0a0a0a" />
-  <title>STRIFFDRIP — Good Crip. Good Drip.</title>
-
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Barlow+Condensed:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
-
-  <style>
-    /* ─────────────────────────────────────────────
-       DESIGN TOKENS
-    ───────────────────────────────────────────── */
-    :root {
-      --bg:          #0a0a0a;
-      --bg-2:        #111111;
-      --bg-3:        #181818;
-      --surface:     #161616;
-      --surface-2:   #1e1e1e;
-      --white:       #f0ece4;
-      --white-dim:   rgba(240,236,228,0.55);
-      --white-faint: rgba(240,236,228,0.12);
-      --accent:      #d4c9b0;       /* warm parchment */
-      --accent-dim:  rgba(212,201,176,0.18);
-      --accent-line: rgba(212,201,176,0.22);
-      --red:         #c0392b;       /* single pop colour */
-      --mono:        'DM Mono', monospace;
-      --display:     'Anton', sans-serif;
-      --body:        'Barlow', sans-serif;
-      --cond:        'Barlow Condensed', sans-serif;
-      --nav-h:       68px;
-      --radius:      0px;           /* brutalist — no border radius */
-      --transition:  0.22s cubic-bezier(0.4,0,0.2,1);
-    }
-
-    /* ─────────────────────────────────────────────
-       RESET
-    ───────────────────────────────────────────── */
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; font-size: 16px; }
-    body {
-      background: var(--bg);
-      color: var(--white);
-      font-family: var(--body);
-      font-weight: 300;
-      line-height: 1.65;
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-    }
-    img { display: block; width: 100%; }
-    a { color: inherit; text-decoration: none; }
-    button { cursor: pointer; font-family: inherit; border: none; background: none; }
-    ul { list-style: none; }
-
-    /* ─────────────────────────────────────────────
-       SCROLLBAR
-    ───────────────────────────────────────────── */
-    ::-webkit-scrollbar { width: 4px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: var(--accent-line); }
-
-    /* ─────────────────────────────────────────────
-       UTILITY
-    ───────────────────────────────────────────── */
-    .container {
-      width: 100%;
-      max-width: 1320px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-    .label {
-      font-family: var(--mono);
-      font-size: 10px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--accent);
-      opacity: 0.7;
-    }
-    .sr-only {
-      position: absolute; width: 1px; height: 1px;
-      padding: 0; margin: -1px; overflow: hidden;
-      clip: rect(0,0,0,0); white-space: nowrap; border: 0;
-    }
-
-    /* ─────────────────────────────────────────────
-       REVEAL ANIMATION
-    ───────────────────────────────────────────── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .reveal.in { opacity: 1; transform: translateY(0); }
-    .reveal-delay-1 { transition-delay: 0.1s; }
-    .reveal-delay-2 { transition-delay: 0.2s; }
-    .reveal-delay-3 { transition-delay: 0.3s; }
-    .reveal-delay-4 { transition-delay: 0.4s; }
-
-    /* ─────────────────────────────────────────────
-       GRAIN OVERLAY
-    ───────────────────────────────────────────── */
-    body::after {
-      content: '';
-      position: fixed; inset: 0;
-      pointer-events: none;
-      z-index: 9999;
-      opacity: 0.025;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-    }
-
-    /* ─────────────────────────────────────────────
-       MARQUEE
-    ───────────────────────────────────────────── */
-    .marquee-bar {
-      background: var(--white);
-      color: var(--bg);
-      padding: 11px 0;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-    .marquee-track {
-      display: inline-flex;
-      animation: marquee 22s linear infinite;
-    }
-    .marquee-item {
-      font-family: var(--cond);
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      padding: 0 36px;
-    }
-    .marquee-dot { opacity: 0.35; }
-    @keyframes marquee {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
-    }
-
-    /* ─────────────────────────────────────────────
-       NAVIGATION
-    ───────────────────────────────────────────── */
-    #navbar {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      height: var(--nav-h);
-      z-index: 900;
-      transition: background var(--transition), border-color var(--transition);
-    }
-    #navbar.scrolled {
-      background: rgba(10,10,10,0.92);
-      backdrop-filter: blur(14px) saturate(0.8);
-      -webkit-backdrop-filter: blur(14px) saturate(0.8);
-      border-bottom: 1px solid var(--accent-line);
-    }
-    .nav-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 100%;
-    }
-    .nav-logo {
-      font-family: var(--display);
-      font-size: 22px;
-      letter-spacing: 4px;
-      color: var(--white);
-      text-transform: uppercase;
-    }
-    .nav-logo span { color: var(--accent); }
-
-    /* Desktop links */
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 36px;
-    }
-    .nav-links a {
-      font-family: var(--cond);
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      color: var(--white-dim);
-      position: relative;
-      transition: color var(--transition);
-    }
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      left: 0; bottom: -3px;
-      width: 0; height: 1px;
-      background: var(--accent);
-      transition: width var(--transition);
-    }
-    .nav-links a:hover { color: var(--white); }
-    .nav-links a:hover::after { width: 100%; }
-
-    .nav-cta-link {
-      font-family: var(--cond);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      color: var(--bg) !important;
-      background: var(--white);
-      padding: 10px 22px;
-      transition: background var(--transition), color var(--transition) !important;
-    }
-    .nav-cta-link:hover {
-      background: var(--accent) !important;
-      color: var(--bg) !important;
-    }
-    .nav-cta-link::after { display: none !important; }
-
-    /* Hamburger */
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      gap: 5px;
-      width: 36px;
-      height: 36px;
-      padding: 4px;
-    }
-    .hamburger span {
-      display: block;
-      height: 1.5px;
-      background: var(--white);
-      transition: transform var(--transition), opacity var(--transition), width var(--transition);
-    }
-    .hamburger span:nth-child(2) { width: 70%; }
-    .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-    .hamburger.open span:nth-child(2) { opacity: 0; width: 100%; }
-    .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
-
-    /* Mobile menu */
-    .mobile-menu {
-      display: none;
-      position: fixed;
-      top: var(--nav-h);
-      left: 0; right: 0;
-      background: rgba(10,10,10,0.97);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--accent-line);
-      padding: 24px;
-      flex-direction: column;
-      gap: 0;
-      z-index: 850;
-      transform: translateY(-12px);
-      opacity: 0;
-      pointer-events: none;
-      transition: transform 0.28s ease, opacity 0.28s ease;
-    }
-    .mobile-menu.open {
-      display: flex;
-      transform: translateY(0);
-      opacity: 1;
-      pointer-events: all;
-    }
-    .mobile-menu a {
-      font-family: var(--cond);
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--white-dim);
-      padding: 16px 0;
-      border-bottom: 1px solid var(--white-faint);
-      transition: color var(--transition);
-    }
-    .mobile-menu a:last-child { border-bottom: none; }
-    .mobile-menu a:hover { color: var(--white); }
-
-    /* ─────────────────────────────────────────────
-       HERO
-    ───────────────────────────────────────────── */
-    #home {
-      min-height: 100svh;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding-top: var(--nav-h);
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* Background diagonal stripe texture */
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      background:
-        repeating-linear-gradient(
-          -55deg,
-          transparent,
-          transparent 60px,
-          rgba(240,236,228,0.012) 60px,
-          rgba(240,236,228,0.012) 61px
-        ),
-        radial-gradient(ellipse 80% 60% at 65% 40%, rgba(212,201,176,0.06) 0%, transparent 65%);
-    }
-
-    /* Large typographic watermark */
-    .hero-watermark {
-      position: absolute;
-      bottom: -0.1em;
-      left: -0.02em;
-      font-family: var(--display);
-      font-size: clamp(140px, 22vw, 320px);
-      color: transparent;
-      -webkit-text-stroke: 1px rgba(240,236,228,0.05);
-      line-height: 1;
-      pointer-events: none;
-      user-select: none;
-      white-space: nowrap;
-      z-index: 0;
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      padding: 0 24px 72px;
-      max-width: 1320px;
-      margin: 0 auto;
-      width: 100%;
-    }
-
-    .hero-eyebrow {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 24px;
-      opacity: 0;
-      animation: fadeUp 0.9s 0.2s forwards;
-    }
-    .hero-eyebrow-line {
-      width: 40px;
-      height: 1px;
-      background: var(--accent);
-      opacity: 0.5;
-    }
-
-    .hero-title {
-      font-family: var(--display);
-      font-size: clamp(72px, 16vw, 210px);
-      line-height: 0.86;
-      letter-spacing: -1px;
-      color: var(--white);
-      text-transform: uppercase;
-      opacity: 0;
-      animation: fadeUp 1s 0.35s forwards;
-    }
-
-    .hero-tagline {
-      margin-top: 28px;
-      font-family: var(--cond);
-      font-size: clamp(14px, 2vw, 18px);
-      font-weight: 400;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--white-dim);
-      max-width: 520px;
-      opacity: 0;
-      animation: fadeUp 0.9s 0.5s forwards;
-    }
-
-    .hero-actions {
-      margin-top: 44px;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 16px;
-      opacity: 0;
-      animation: fadeUp 0.9s 0.65s forwards;
-    }
-
-    /* Primary CTA */
-    .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-family: var(--cond);
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--bg);
-      background: var(--white);
-      padding: 16px 36px;
-      position: relative;
-      overflow: hidden;
-      transition: color var(--transition);
-    }
-    .btn-primary::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: var(--accent);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
-      z-index: 0;
-    }
-    .btn-primary:hover::before { transform: scaleX(1); }
-    .btn-primary span { position: relative; z-index: 1; }
-    .btn-arrow {
-      display: inline-block;
-      position: relative;
-      z-index: 1;
-      transition: transform var(--transition);
-    }
-    .btn-primary:hover .btn-arrow { transform: translateX(5px); }
-
-    /* Ghost button */
-    .btn-ghost {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-family: var(--cond);
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--white-dim);
-      border: 1px solid var(--accent-line);
-      padding: 15px 28px;
-      transition: color var(--transition), border-color var(--transition);
-    }
-    .btn-ghost:hover {
-      color: var(--white);
-      border-color: rgba(212,201,176,0.5);
-    }
-
-    .hero-meta {
-      margin-top: 56px;
-      padding-top: 28px;
-      border-top: 1px solid var(--white-faint);
-      display: flex;
-      gap: 48px;
-      opacity: 0;
-      animation: fadeUp 0.9s 0.8s forwards;
-    }
-    .hero-meta-item {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .hero-meta-num {
-      font-family: var(--display);
-      font-size: 28px;
-      color: var(--white);
-      letter-spacing: 1px;
-    }
-    .hero-meta-label {
-      font-family: var(--mono);
-      font-size: 9px;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      color: var(--accent);
-      opacity: 0.65;
-    }
-
-    /* Scroll indicator */
-    .scroll-hint {
-      position: absolute;
-      right: 32px;
-      bottom: 72px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      opacity: 0;
-      animation: fadeIn 1s 1.2s forwards;
-    }
-    .scroll-hint-text {
-      writing-mode: vertical-rl;
-      font-family: var(--mono);
-      font-size: 9px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--accent);
-      opacity: 0.5;
-    }
-    .scroll-hint-line {
-      width: 1px;
-      height: 52px;
-      background: linear-gradient(to bottom, var(--accent) 0%, transparent 100%);
-      opacity: 0.35;
-      animation: scrollPulse 2.4s ease-in-out infinite;
-    }
-
-    @keyframes scrollPulse {
-      0%, 100% { transform: scaleY(1); opacity: 0.35; }
-      50% { transform: scaleY(0.4); opacity: 0.1; }
-    }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
-
-    /* ─────────────────────────────────────────────
-       SECTION SHARED
-    ───────────────────────────────────────────── */
-    .section-header {
-      margin-bottom: 56px;
-    }
-    .section-header .label {
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .section-header .label::before {
-      content: '';
-      width: 24px;
-      height: 1px;
-      background: var(--accent);
-      opacity: 0.5;
-    }
-    .section-title {
-      font-family: var(--display);
-      font-size: clamp(40px, 7vw, 86px);
-      line-height: 0.9;
-      text-transform: uppercase;
-      letter-spacing: 0px;
-      color: var(--white);
-    }
-    .section-desc {
-      margin-top: 20px;
-      font-size: 14px;
-      color: var(--white-dim);
-      max-width: 460px;
-      line-height: 1.75;
-    }
-
-    /* ─────────────────────────────────────────────
-       PRODUCTS SECTION
-    ───────────────────────────────────────────── */
-    #drops {
-      background: var(--bg);
-      padding: 110px 0 90px;
-      border-top: 1px solid var(--white-faint);
-    }
-
-    .products-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      margin-bottom: 56px;
-      flex-wrap: wrap;
-      gap: 24px;
-    }
-
-    /* Filter tabs */
-    .filter-tabs {
-      display: flex;
-      gap: 2px;
-    }
-    .filter-tab {
-      font-family: var(--cond);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      padding: 9px 18px;
-      color: var(--white-dim);
-      border: 1px solid var(--accent-line);
-      transition: background var(--transition), color var(--transition), border-color var(--transition);
-    }
-    .filter-tab:hover,
-    .filter-tab.active {
-      background: var(--white);
-      color: var(--bg);
-      border-color: var(--white);
-    }
-
-    /* Grid */
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-    }
-
-    /* Card */
-    .product-card {
-      background: var(--surface);
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      overflow: hidden;
-      border: 1px solid transparent;
-      transition: border-color var(--transition), transform var(--transition);
-    }
-    .product-card:hover {
-      border-color: var(--accent-line);
-      transform: translateY(-4px);
-    }
-
-    /* Sold out ribbon */
-    .product-card.sold-out::before {
-      content: 'SOLD OUT';
-      position: absolute;
-      top: 14px; right: -26px;
-      background: var(--red);
-      color: #fff;
-      font-family: var(--mono);
-      font-size: 9px;
-      letter-spacing: 2px;
-      padding: 4px 40px;
-      transform: rotate(45deg);
-      z-index: 3;
-    }
-
-    /* New badge */
-    .product-badge {
-      position: absolute;
-      top: 14px;
-      left: 14px;
-      background: var(--white);
-      color: var(--bg);
-      font-family: var(--mono);
-      font-size: 9px;
-      letter-spacing: 2px;
-      padding: 4px 10px;
-      z-index: 3;
-    }
-
-    /* Image placeholder */
-    .product-img-wrap {
-      position: relative;
-      aspect-ratio: 3 / 4;
-      overflow: hidden;
-      background: var(--bg-3);
-    }
-
-    .product-img-placeholder {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 14px;
-      background:
-        repeating-linear-gradient(
-          -45deg,
-          transparent,
-          transparent 18px,
-          rgba(255,255,255,0.025) 18px,
-          rgba(255,255,255,0.025) 19px
-        );
-      transition: transform 0.5s ease;
-    }
-    .product-card:hover .product-img-placeholder {
-      transform: scale(1.04);
-    }
-    .placeholder-icon {
-      font-size: 44px;
-      opacity: 0.14;
-      line-height: 1;
-    }
-    .placeholder-text {
-      font-family: var(--mono);
-      font-size: 9px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--accent);
-      opacity: 0.35;
-      text-align: center;
-      padding: 0 16px;
-    }
-
-    /* Hover overlay on image */
-    .product-img-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(10,10,10,0.62);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    .product-card:hover .product-img-overlay { opacity: 1; }
-    .overlay-quick-btn {
-      font-family: var(--cond);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--bg);
-      background: var(--white);
-      border: none;
-      padding: 12px 24px;
-      cursor: pointer;
-      transition: background var(--transition);
-    }
-    .overlay-quick-btn:hover { background: var(--accent); }
-
-    /* Card body */
-    .product-body {
-      padding: 18px 18px 20px;
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-      gap: 6px;
-    }
-    .product-tag {
-      font-family: var(--mono);
-      font-size: 9px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--accent);
-      opacity: 0.55;
-    }
-    .product-name {
-      font-family: var(--cond);
-      font-size: 15px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      color: var(--white);
-      line-height: 1.25;
-      margin-top: 2px;
-    }
-    .product-price-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 8px;
-    }
-    .product-price {
-      font-family: var(--cond);
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--accent);
-      letter-spacing: 1px;
-    }
-    .product-price .note {
-      font-size: 10px;
-      opacity: 0.5;
-      letter-spacing: 0;
-      font-weight: 400;
-    }
-    .product-sizes {
-      display: flex;
-      gap: 5px;
-      margin-top: 10px;
-    }
-    .size-chip {
-      font-family: var(--mono);
-      font-size: 9px;
-      letter-spacing: 1px;
-      color: var(--white-dim);
-      border: 1px solid var(--white-faint);
-      padding: 3px 7px;
-    }
-    .product-dm-btn {
-      margin-top: 14px;
-      display: block;
-      width: 100%;
-      font-family: var(--cond);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--bg);
-      background: var(--white);
-      border: none;
-      padding: 13px 16px;
-      text-align: center;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      transition: color var(--transition);
-      text-decoration: none;
-    }
-    .product-dm-btn::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: var(--accent);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
-      z-index: 0;
-    }
-    .product-dm-btn:hover::before { transform: scaleX(1); }
-    .product-dm-btn span { position: relative; z-index: 1; }
-
-    /* Products bottom CTA */
-    .products-footer {
-      margin-top: 52px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-    .products-footer-note {
-      font-family: var(--mono);
-      font-size: 10px;
-      letter-spacing: 2px;
-      color: var(--accent);
-      opacity: 0.5;
-      text-transform: uppercase;
-    }
-
-    /* ─────────────────────────────────────────────
-       POLICY SECTION
-    ───────────────────────────────────────────── */
-    #policy {
-      background: var(--bg-2);
-      border-top: 1px solid var(--white-faint);
-      border-bottom: 1px solid var(--white-faint);
-      padding: 110px 0 90px;
-    }
-
-    .policy-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1px;
-      background: var(--white-faint);
-      border: 1px solid var(--white-faint);
-      margin-top: 56px;
-    }
-
-    .policy-card {
-      background: var(--surface);
-      padding: 44px 40px;
-      position: relative;
-      overflow: hidden;
-      transition: background var(--transition);
-    }
-    .policy-card:hover { background: var(--surface-2); }
-
-    .policy-number {
-      position: absolute;
-      top: -8px; right: 20px;
-      font-family: var(--display);
-      font-size: 96px;
-      color: rgba(240,236,228,0.025);
-      user-select: none;
-      pointer-events: none;
-      line-height: 1;
-    }
-
-    .policy-icon-wrap {
-      width: 44px; height: 44px;
-      border: 1px solid var(--accent-line);
-      display: flex; align-items: center; justify-content: center;
-      margin-bottom: 22px;
-      font-size: 19px;
-    }
-
-    .policy-title {
-      font-family: var(--cond);
-      font-size: 18px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--white);
-      margin-bottom: 14px;
-    }
-
-    .policy-rule {
-      font-size: 14px;
-      color: var(--white-dim);
-      line-height: 1.8;
-    }
-    .policy-rule strong {
-      color: var(--white);
-      font-weight: 500;
-    }
-
-    /* Warning bar */
-    .policy-warning {
-      margin-top: 32px;
-      background: rgba(192,57,43,0.1);
-      border: 1px solid rgba(192,57,43,0.3);
-      padding: 18px 24px;
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-    }
-    .policy-warning-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
-    .policy-warning-text {
-      font-family: var(--cond);
-      font-size: 13px;
-      font-weight: 500;
-      letter-spacing: 0.5px;
-      color: #e88070;
-      line-height: 1.6;
-    }
-
-    /* ─────────────────────────────────────────────
-       INSTAGRAM CTA BAND
-    ───────────────────────────────────────────── */
-    .ig-band {
-      background: var(--white);
-      padding: 52px 24px;
-      text-align: center;
-    }
-    .ig-band-inner {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 36px;
-      flex-wrap: wrap;
-    }
-    .ig-band-text {
-      font-family: var(--display);
-      font-size: clamp(22px, 4vw, 40px);
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--bg);
-    }
-    .ig-band-handle {
-      font-family: var(--mono);
-      font-size: 13px;
-      letter-spacing: 2px;
-      color: rgba(10,10,10,0.4);
-      text-transform: lowercase;
-    }
-    .btn-ig {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
-      font-family: var(--cond);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--white);
-      background: var(--bg);
-      padding: 15px 32px;
-      transition: background var(--transition);
-    }
-    .btn-ig:hover { background: #222; }
-    .ig-logo {
-      width: 16px; height: 16px;
-      fill: var(--white);
-    }
-
-    /* ─────────────────────────────────────────────
-       CONTACT SECTION
-    ───────────────────────────────────────────── */
-    #contact {
-      background: var(--bg);
-      border-top: 1px solid var(--white-faint);
-      padding: 110px 0 90px;
-    }
-
-    .contact-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: start;
-      margin-top: 56px;
-    }
-
-    .contact-intro {
-      font-size: 15px;
-      color: var(--white-dim);
-      line-height: 1.8;
-      margin-bottom: 36px;
-    }
-
-    .contact-items { display: flex; flex-direction: column; gap: 2px; }
-    .contact-item {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      padding: 20px 24px;
-      background: var(--surface);
-      border: 1px solid transparent;
-      transition: border-color var(--transition), background var(--transition);
-      text-decoration: none;
-    }
-    .contact-item:hover {
-      border-color: var(--accent-line);
-      background: var(--surface-2);
-    }
-    .contact-icon {
-      width: 40px; height: 40px;
-      background: var(--accent-dim);
-      border: 1px solid var(--accent-line);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 17px;
-      flex-shrink: 0;
-    }
-    .contact-detail { display: flex; flex-direction: column; gap: 3px; }
-    .contact-type {
-      font-family: var(--mono);
-      font-size: 9px;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      color: var(--accent);
-      opacity: 0.6;
-    }
-    .contact-value {
-      font-family: var(--cond);
-      font-size: 15px;
-      font-weight: 500;
-      letter-spacing: 0.5px;
-      color: var(--white);
-    }
-    .contact-arrow {
-      margin-left: auto;
-      font-size: 18px;
-      color: var(--white-dim);
-      transition: transform var(--transition);
-    }
-    .contact-item:hover .contact-arrow { transform: translateX(4px); }
-
-    /* FAQ mini */
-    .contact-faq {
-      display: flex;
-      flex-direction: column;
-      gap: 1px;
-    }
-    .faq-item {
-      background: var(--surface);
-      overflow: hidden;
-    }
-    .faq-q {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px 24px;
-      cursor: pointer;
-      user-select: none;
-      transition: background var(--transition);
-      gap: 16px;
-    }
-    .faq-q:hover { background: var(--surface-2); }
-    .faq-q-text {
-      font-family: var(--cond);
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      color: var(--white);
-    }
-    .faq-chevron {
-      font-size: 18px;
-      color: var(--accent);
-      flex-shrink: 0;
-      transition: transform var(--transition);
-    }
-    .faq-item.open .faq-chevron { transform: rotate(180deg); }
-    .faq-a {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.35s ease, padding 0.35s ease;
-      font-size: 13px;
-      color: var(--white-dim);
-      line-height: 1.8;
-    }
-    .faq-item.open .faq-a {
-      max-height: 200px;
-      padding: 0 24px 20px;
-    }
-
-    /* ─────────────────────────────────────────────
-       FOOTER
-    ───────────────────────────────────────────── */
-    footer {
-      background: var(--bg-2);
-      border-top: 1px solid var(--white-faint);
-      padding: 60px 0 0;
-    }
-
-    .footer-inner {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
-      gap: 60px;
-      padding-bottom: 52px;
-    }
-
-    .footer-brand { }
-    .footer-logo {
-      font-family: var(--display);
-      font-size: 30px;
-      letter-spacing: 5px;
-      color: var(--white);
-      margin-bottom: 14px;
-    }
-    .footer-tagline {
-      font-size: 13px;
-      color: var(--white-dim);
-      line-height: 1.7;
-      max-width: 280px;
-      margin-bottom: 28px;
-    }
-    .footer-social { display: flex; gap: 10px; }
-    .social-link {
-      width: 38px; height: 38px;
-      border: 1px solid var(--accent-line);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 16px;
-      color: var(--white-dim);
-      transition: border-color var(--transition), color var(--transition), background var(--transition);
-    }
-    .social-link:hover {
-      border-color: var(--white);
-      color: var(--white);
-      background: var(--white-faint);
-    }
-
-    .footer-col-title {
-      font-family: var(--mono);
-      font-size: 9px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--accent);
-      opacity: 0.6;
-      margin-bottom: 22px;
-    }
-    .footer-links { display: flex; flex-direction: column; gap: 12px; }
-    .footer-links a {
-      font-family: var(--cond);
-      font-size: 13px;
-      font-weight: 500;
-      letter-spacing: 0.5px;
-      color: var(--white-dim);
-      transition: color var(--transition);
-    }
-    .footer-links a:hover { color: var(--white); }
-
-    .footer-bottom {
-      border-top: 1px solid var(--white-faint);
-      padding: 22px 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-    .footer-copy {
-      font-family: var(--mono);
-      font-size: 10px;
-      letter-spacing: 2px;
-      color: var(--white-dim);
-      opacity: 0.4;
-    }
-    .footer-location {
-      font-family: var(--mono);
-      font-size: 10px;
-      letter-spacing: 2px;
-      color: var(--accent);
-      opacity: 0.4;
-      text-transform: uppercase;
-    }
-
-    /* ─────────────────────────────────────────────
-       RESPONSIVE
-    ───────────────────────────────────────────── */
-    @media (max-width: 1100px) {
-      .products-grid { grid-template-columns: repeat(3, 1fr); }
-    }
-
-    @media (max-width: 900px) {
-      .nav-links { display: none; }
-      .hamburger { display: flex; }
-
-      .hero-meta { gap: 28px; }
-      .scroll-hint { display: none; }
-
-      .products-grid { grid-template-columns: repeat(2, 1fr); }
-
-      .policy-grid { grid-template-columns: 1fr; }
-
-      .contact-layout { grid-template-columns: 1fr; gap: 40px; }
-
-      .footer-inner { grid-template-columns: 1fr 1fr; gap: 36px; }
-      .footer-brand { grid-column: span 2; }
-    }
-
-    @media (max-width: 560px) {
-      :root { --nav-h: 60px; }
-      .hero-content { padding-bottom: 52px; }
-      .hero-meta { gap: 20px; flex-wrap: wrap; }
-      .hero-meta-item { min-width: 80px; }
-
-      .products-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
-      .product-card { border: 1px solid var(--white-faint); }
-
-      .ig-band-inner { flex-direction: column; gap: 20px; }
-
-      .footer-inner { grid-template-columns: 1fr; }
-      .footer-brand { grid-column: span 1; }
-
-      .policy-card { padding: 32px 24px; }
-    }
-
-    @media (max-width: 380px) {
-      .products-grid { grid-template-columns: 1fr; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STRIFFDRIP | STREETWEAR & BEYOND</title>
+    <style>
+        /* Premium Streetwear Styling matching your exact UI */
+        * {
+            margin: 0;
+            padding: 0;
+            box-box-sizing: border-box;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            color: #ffffff;
+            padding-bottom: 60px;
+        }
+
+        /* Navbar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        .nav-logo {
+            font-weight: 900;
+            font-size: 1.5rem;
+            color: #ccff00; /* Neon Lime Accent */
+            text-transform: uppercase;
+        }
+
+        .nav-links a {
+            color: #888;
+            text-decoration: none;
+            margin-left: 25px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #ccff00;
+        }
+
+        /* Hero Landing Section */
+        .hero {
+            padding: 80px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero-sub {
+            color: #ccff00;
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .hero-title {
+            font-size: clamp(3.5rem, 8vw, 6.5rem);
+            font-weight: 900;
+            line-height: 0.9;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+        }
+
+        .hero-title span {
+            color: #ccff00;
+            display: block;
+        }
+
+        .hero-desc {
+            color: #888;
+            font-size: 1.1rem;
+            max-width: 500px;
+            line-height: 1.5;
+            margin-bottom: 40px;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background-color: #ccff00;
+            color: #000;
+            padding: 15px 40px;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: transform 0.2s;
+        }
+
+        .cta-btn:hover {
+            transform: scale(1.03);
+        }
+
+        /* Ticker Marquee Banner */
+        .ticker {
+            background-color: #ccff00;
+            color: #000;
+            overflow: hidden;
+            white-space: nowrap;
+            padding: 12px 0;
+            font-weight: 900;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            margin-bottom: 80px;
+        }
+
+        .ticker-wrap {
+            display: inline-block;
+            animation: marquee 20s linear infinite;
+        }
+
+        .ticker-wrap span {
+            margin-right: 50px;
+        }
+
+        @keyframes marquee {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
+        }
+
+        /* Product Grid Section */
+        .catalog-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .section-header {
+            font-size: 2rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+            border-left: 4px solid #ccff00;
+            padding-left: 15px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 40px 30px;
+        }
+
+        /* Custom Premium Product Cards */
+        .card {
+            background: #111;
+            border: 1px solid #1a1a1a;
+            border-radius: 0px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            transition: border-color 0.3s;
+        }
+
+        .card:hover {
+            border-color: #ccff00;
+        }
+
+        .img-container {
+            width: 100%;
+            padding-top: 125px; /* Premium rectangular layout ratio */
+            position: relative;
+            background-color: #1a1a1a;
+            overflow: hidden;
+        }
+
+        .img-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s, filter 0.3s;
+        }
+
+        .card:hover .img-container img {
+            transform: scale(1.05);
+        }
+
+        .card-details {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .card-price {
+            font-size: 1rem;
+            color: #ccff00;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .buy-btn {
+            display: block;
+            text-align: center;
+            background-color: transparent;
+            color: #fff;
+            border: 1px solid #fff;
+            padding: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-decoration: none;
+            font-size: 0.85rem;
+            margin-top: auto;
+            transition: all 0.3s;
+        }
+
+        .buy-btn:hover {
+            background-color: #fff;
+            color: #000;
+        }
+
+        /* AUTOMATIC SOLD OUT RESTRAINT STYLES */
+        .sold-out .img-container img {
+            filter: grayscale(1) brightness(0.4);
+        }
+
+        .sold-out .buy-btn {
+            background-color: #222 !important;
+            color: #555 !important;
+            border-color: #222 !important;
+            pointer-events: none;
+            cursor: not-allowed;
+        }
+
+        .sold-out-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: #ff0055;
+            color: #fff;
+            padding: 6px 15px;
+            font-size: 0.75rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 10;
+        }
+
+        /* Policy Info Section */
+        .policies-section {
+            background-color: #111;
+            margin-top: 100px;
+            padding: 60px 40px;
+            border-top: 1px solid #1a1a1a;
+        }
+
+        .policies-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .policy-box h4 {
+            color: #ccff00;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .policy-box p {
+            color: #888;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Footer / Contact Details */
+        footer {
+            max-width: 1200px;
+            margin: 60px auto 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            color: #555;
+            font-size: 0.85rem;
+        }
+
+        .contact-info a {
+            color: #888;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .contact-info a:hover {
+            color: #ccff00;
+        }
+    </style>
 </head>
 <body>
 
-  <!-- ═══════════════════════════════════════════
-       NAVIGATION
-  ══════════════════════════════════════════════ -->
-  <nav id="navbar" role="navigation" aria-label="Main navigation">
-    <div class="container">
-      <div class="nav-inner">
-
-        <a href="#home" class="nav-logo" aria-label="STRIFFDRIP Home">
-          STRIFF<span>DRIP</span>
-        </a>
-
-        <ul class="nav-links" role="list">
-          <li><a href="#drops">Drops</a></li>
-          <li><a href="#policy">Buying Policy</a></li>
-          <li><a href="#contact">Contact</a></li>
-          <li>
-            <a href="https://ig.me/m/striffdrip" target="_blank" rel="noopener noreferrer" class="nav-cta-link" aria-label="DM on Instagram">
-              DM on IG
-            </a>
-          </li>
-        </ul>
-
-        <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
-          <span></span><span></span><span></span>
-        </button>
-
-      </div>
-    </div>
-  </nav>
-
-  <!-- Mobile Menu -->
-  <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile navigation">
-    <a href="#drops" class="mobile-nav-link">Drops</a>
-    <a href="#policy" class="mobile-nav-link">Buying Policy</a>
-    <a href="#contact" class="mobile-nav-link">Contact</a>
-    <a href="https://ig.me/m/striffdrip" target="_blank" rel="noopener noreferrer" class="mobile-nav-link">DM on Instagram ↗</a>
-  </nav>
-
-  <!-- ═══════════════════════════════════════════
-       HERO
-  ══════════════════════════════════════════════ -->
-  <section id="home" aria-label="Hero">
-    <div class="hero-bg" aria-hidden="true"></div>
-    <div class="hero-watermark" aria-hidden="true">STRIFF</div>
-
-    <div class="hero-content container">
-
-      <div class="hero-eyebrow">
-        <div class="hero-eyebrow-line" aria-hidden="true"></div>
-        <span class="label">Authentic Reseller · Varanasi → Global</span>
-      </div>
-
-      <h1 class="hero-title">STRIFF<br>DRIP</h1>
-
-      <p class="hero-tagline">Good Crip. Good Drip. Authentic Reseller.</p>
-
-      <div class="hero-actions">
-        <a href="#drops" class="btn-primary" aria-label="Browse latest drops">
-          <span>Browse Latest Drops</span>
-          <span class="btn-arrow" aria-hidden="true">→</span>
-        </a>
-        <a href="#policy" class="btn-ghost">
-          <span>Buying Policy</span>
-        </a>
-      </div>
-
-      <div class="hero-meta" aria-label="Store highlights">
-        <div class="hero-meta-item">
-          <span class="hero-meta-num">100%</span>
-          <span class="hero-meta-label">Authentic</span>
-        </div>
-        <div class="hero-meta-item">
-          <span class="hero-meta-num">500+</span>
-          <span class="hero-meta-label">Orders Done</span>
-        </div>
-        <div class="hero-meta-item">
-          <span class="hero-meta-num">0</span>
-          <span class="hero-meta-label">Fakes Ever</span>
-        </div>
-        <div class="hero-meta-item">
-          <span class="hero-meta-num">🔥</span>
-          <span class="hero-meta-label">New Drops Weekly</span>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="scroll-hint" aria-hidden="true">
-      <span class="scroll-hint-text">Scroll</span>
-      <div class="scroll-hint-line"></div>
-    </div>
-  </section>
-
-  <!-- Marquee ticker -->
-  <div class="marquee-bar" aria-hidden="true">
-    <div class="marquee-track" id="marqueeTrack">
-      <span class="marquee-item">STRIFFDRIP</span><span class="marquee-item marquee-dot">✦</span>
-      <span class="marquee-item">WIDE LEG DENIM</span><span class="marquee-item marquee-dot">✦</span>
-      <span class="marquee-item">BAGGY FITS</span><span class="marquee-item marquee-dot">✦</span>
-      <span class="marquee-item">AUTHENTIC RESELLER</span><span class="marquee-item marquee-dot">✦</span>
-      <span class="marquee-item">GOOD CRIP GOOD DRIP</span><span class="marquee-item marquee-dot">✦</span>
-      <span class="marquee-item">VARANASI → GLOBAL</span><span class="marquee-item marquee-dot">✦</span>
-      <span class="marquee-item">DM TO BUY</span><span class="marquee-item marquee-dot">✦</span>
-      <span class="marquee-item">@STRIFFDRIP</span><span class="marquee-item marquee-dot">✦</span>
-      <!-- duplicate for seamless loop -->
-      <span class="marquee-item">STRIFFDRIP</span><span class="marquee-item marquee-dot">✦</span>
-      <span class="marquee-item">WIDE LEG DENIM</span><span class="marquee-item marquee-dot">✦</span>
-      <span class="marquee-item">BAGGY FITS</span><span class="marquee-item marquee-dot">✦</span>
-      <span class="marquee-item">AUTHENTIC RESELLER</span><span class="marquee-item marquee-dot">✦</span>
-      <span class="marquee-item">GOOD CRIP GOOD DRIP</span><span class="marquee-item marquee-dot">✦</span>
-      <span class="marquee-item">VARANASI → GLOBAL</span><span class="marquee-item marquee-dot">✦</span>
-      <span class="marquee-item">DM TO BUY</span><span class="marquee-item marquee-dot">✦</span>
-      <span class="marquee-item">@STRIFFDRIP</span><span class="marquee-item marquee-dot">✦</span>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════
-       PRODUCT DROPS
-  ══════════════════════════════════════════════ -->
-  <section id="drops" aria-label="Latest Drops">
-    <div class="container">
-
-      <div class="products-top">
-        <div class="section-header" style="margin-bottom:0;">
-          <p class="label reveal">Current Season</p>
-          <h2 class="section-title reveal reveal-delay-1">LATEST<br>DROPS</h2>
-          <p class="section-desc reveal reveal-delay-2">
-            All pieces are authentic. Sizes sell fast — DM immediately to lock your size before it's gone.
-          </p>
-        </div>
-        <div class="filter-tabs reveal" role="tablist" aria-label="Filter by category">
-          <button class="filter-tab active" role="tab" aria-selected="true" data-filter="all">All</button>
-          <button class="filter-tab" role="tab" aria-selected="false" data-filter="denim">Denim</button>
-          <button class="filter-tab" role="tab" aria-selected="false" data-filter="tops">Tops</button>
-        </div>
-      </div>
-
-      <div class="products-grid" id="productsGrid">
-
-        <!-- Card 1 -->
-        <article class="product-card reveal" data-category="denim">
-          <div class="product-badge">NEW</div>
-          <div class="product-img-wrap">
-            <div class="product-img-placeholder" aria-label="Product image placeholder">
-              <div class="placeholder-icon">👖</div>
-              <div class="placeholder-text">Vintage Wash<br>Ultra-Wide</div>
-            </div>
-            <div class="product-img-overlay">
-              <a href="https://ig.me/m/striffdrip" target="_blank" rel="noopener noreferrer" class="overlay-quick-btn" aria-label="Quick DM to buy">Quick DM →</a>
-            </div>
-          </div>
-          <div class="product-body">
-            <span class="product-tag">Wide Leg · Denim</span>
-            <h3 class="product-name">Vintage Wash Ultra-Wide Denim</h3>
-            <div class="product-price-row">
-              <span class="product-price">Price on DM <span class="note">/ check IG caption</span></span>
-            </div>
-            <div class="product-sizes" aria-label="Available sizes">
-              <span class="size-chip">S</span><span class="size-chip">M</span><span class="size-chip">L</span><span class="size-chip">XL</span>
-            </div>
-            <a href="https://ig.me/m/striffdrip" target="_blank" rel="noopener noreferrer" class="product-dm-btn" aria-label="DM to buy Vintage Wash Ultra-Wide Denim">
-              <span>DM to Buy / Check Availability</span>
-            </a>
-          </div>
-        </article>
-
-        <!-- Card 2 -->
-        <article class="product-card reveal reveal-delay-1" data-category="denim">
-          <div class="product-img-wrap">
-            <div class="product-img-placeholder" aria-label="Product image placeholder">
-              <div class="placeholder-icon">🖤</div>
-              <div class="placeholder-text">Acid Bleach<br>Baggy Jean</div>
-            </div>
-            <div class="product-img-overlay">
-              <a href="https://ig.me/m/striffdrip" target="_blank" rel="noopener noreferrer" class="overlay-quick-btn">Quick DM →</a>
-            </div>
-          </div>
-          <div class="product-body">
-            <span class="product-tag">Baggy · Denim</span>
-            <h3 class="product-name">Acid Bleach Baggy Jean</h3>
-            <div class="product-price-row">
-              <span class="product-price">Price on DM <span class="note">/ check IG caption</span></span>
-            </div>
-            <div class="product-sizes" aria-label="Available sizes">
-              <span class="size-chip">M</span><span class="size-chip">L</span><span class="size-chip">XL</span>
-            </div>
-            <a href="https://ig.me/m/striffdrip" target="_blank" rel="noopener noreferrer" class="product-dm-btn">
-              <span>DM to Buy / Check Availability</span>
-            </a>
-          </div>
-        </article>
-
-        <!-- Card 3 -->
-        <article class="product-card reveal reveal-delay-2" data-category="denim">
-          <div class="product-badge">NEW</div>
-          <div class="product-img-wrap">
-            <div class="product-img-placeholder" aria-label="Product image placeholder">
-              <div class="placeholder-icon">🏷️</div>
-              <div class="placeholder-text">Raw Hem<br>Carpenter</div>
-            </div>
-            <div class="product-img-overlay">
-              <a href="https://ig.me/m/striffdrip" target="_blank" rel="noopener noreferrer" class="overlay-quick-btn">Quick DM →</a>
-            </div>
-          </div>
-          <div class="product-body">
-            <span class="product-tag">Carpenter · Denim</span>
-            <h3 class="product-name">Raw Hem Carpenter Wide</h3>
-            <div class="product-price-row">
-              <span class="product-price">Price on DM <span class="note">/ check IG caption</span></span>
-            </div>
-            <div class="product-sizes" aria-label="Available sizes">
-              <span class="size-chip">S</span><span class="size-chip">M</span><span class="size-chip">L</span>
-            </div>
-            <a href="https://ig.me/m/striffdrip" target="_blank" rel="noopener noreferrer" class="product-dm-btn">
-              <span>DM to Buy / Check Availability</span>
-            </a>
-          </div>
-        </article>
-
-        <!-- Card 4 -->
-        <article class="product-card reveal reveal-delay-3" data-category="denim">
-          <div class="product-img-wrap">
-            <div class="product-img-placeholder" aria-label="Product image placeholder">
-              <div class="placeholder-icon">⬛</div>
-              <div class="placeholder-text">Black Wax<br>Coated Denim</div>
-            </div>
-            <div class="product-img-overlay">
-              <a href="https://ig.me/m/striffdrip" target="_blank" rel="noopener noreferrer" class="overlay-quick-btn">Quick DM →</a>
-            </div>
-          </div>
-          <div class="product-body">
-            <span class="product-tag">Wax Coated · Denim</span>
-            <h3 class="product-name">Black Wax Coated Wide Leg</h3>
-            <div class="product-price-row">
-              <span class="product-price">Price on DM <span class="note">/ check IG caption</span></span>
-            </div>
-            <div class="product-sizes" aria-label="Available sizes">
-              <span class="size-chip">M</span><span class="size-chip">L</span><span class="size-chip">XL</span><span class="size-chip">XXL</span>
-            </div>
-            <a href="https://ig.me/m/striffdrip" target="_blank" rel="noopener noreferrer" class="product-dm-btn">
-              <span>DM to Buy / Check Availability</span>
-            </a>
-          </div>
-        </article>
-
-        <!-- Card 5 -->
-        <article class="product-card reveal" data-category="denim">
-          <div class="product-img-wrap">
-            <div class="product-img-placeholder" aria-label="Product image placeholder">
-              <div class="placeholder-icon">🔷</div>
-              <div class="placeholder-text">Indigo Fade<br>Straight Bag</div>
-            </div>
-            <div class="product-img-overlay">
-              <a href="https://ig.me/m/striffdrip" target="_blank" rel="noopener noreferrer" class="overlay-quick-btn">Quick DM →</a>
-            </div>
-          </div>
-          <div class="product-body">
-            <span class="product-tag">Straight Baggy · Denim</span>
-            <h3 class="product-name">Indigo Fade Straight Baggy</h3>
-            <div class="product-price-row">
-              <span class="product-price">Price on DM <span class="note">/ check IG caption</span></span>
-            </div>
-            <div class="product-sizes" aria-label="Available sizes">
-              <span class="size-chip">S</span><span class="size-chip">M</span><span class="size-chip">L</span>
-            </div>
-            <a href="https://ig.me/m/striffdrip" target="_blank" rel="noopener noreferrer" class="product-dm-btn">
-              <span>DM to Buy / Check Availability</span>
-            </a>
-          </div>
-        </article>
-
-        <!-- Card 6 -->
-        <article class="product-card reveal reveal-delay-1" data-category="tops">
-          <div class="product-badge">NEW</div>
-          <div class="product-img-wrap">
-            <div class="product-img-placeholder" aria-label="Product image placeholder">
-              <div class="placeholder-icon">👕</div>
-              <div class="placeholder-text">Oversized<br>Drop Tee</div>
-            </div>
-            <div class="product-img-overlay">
-              <a href="https://ig.me/m/striffdrip" target="_blank" rel="noopener noreferrer" class="overlay-quick-btn">Quick DM →</a>
-            </div>
-          </div>
-          <div class="product-body">
-            <span class="product-tag">Oversized · Tops</span>
-            <h3 class="product-name">Oversized Heavy Drop Tee</h3>
-            <div class="product-price-row">
-              <span class="product-price">Price on DM <span class="note">/ check IG caption</span></span>
-            </div>
-            <div class="product-sizes" aria-label="Available sizes">
-              <span class="size-chip">S</span><span class="size-chip">M</span><span class="size-chip">L</span><span class="size-chip">XL</span>
-            </div>
-            <a href="https://ig.me/m/striffdrip" target="_blank" rel="noopener noreferrer" class="product-dm-btn">
-              <span>DM to Buy / Check Availability</span>
-            </a>
-          </div>
-        </article>
-
-        <!-- Card 7 -->
-        <article class="product-card reveal reveal-delay-2" data-category="denim">
-          <div class="product-img-wrap">
-            <div class="product-img-placeholder" aria-label="Product image placeholder">
-              <div class="placeholder-icon">🌫️</div>
-              <div class="placeholder-text">Distressed<br>Snow-Wash</div>
-            </div>
-            <div class="product-img-overlay">
-              <a href="https://ig.me/m/striffdrip" target="_blank" rel="noopener noreferrer" class="overlay-quick-btn">Quick DM →</a>
-            </div>
-          </div>
-          <div class="product-body">
-            <span class="product-tag">Distressed · Denim</span>
-            <h3 class="product-name">Distressed Snow-Wash Wide</h3>
-            <div class="product-price-row">
-              <span class="product-price">Price on DM <span class="note">/ check IG caption</span></span>
-            </div>
-            <div class="product-sizes" aria-label="Available sizes">
-              <span class="size-chip">M</span><span class="size-chip">L</span>
-            </div>
-            <a href="https://ig.me/m/striffdrip" target="_blank" rel="noopener noreferrer" class="product-dm-btn">
-              <span>DM to Buy / Check Availability</span>
-            </a>
-          </div>
-        </article>
-
-        <!-- Card 8 -->
-        <article class="product-card reveal reveal-delay-3" data-category="tops">
-          <div class="product-img-wrap">
-            <div class="product-img-placeholder" aria-label="Product image placeholder">
-              <div class="placeholder-icon">🧥</div>
-              <div class="placeholder-text">Boxy Fit<br>Varsity Tee</div>
-            </div>
-            <div class="product-img-overlay">
-              <a href="https://ig.me/m/striffdrip" target="_blank" rel="noopener noreferrer" class="overlay-quick-btn">Quick DM →</a>
-            </div>
-          </div>
-          <div class="product-body">
-            <span class="product-tag">Boxy · Tops</span>
-            <h3 class="product-name">Boxy Fit Varsity Graphic Tee</h3>
-            <div class="product-price-row">
-              <span class="product-price">Price on DM <span class="note">/ check IG caption</span></span>
-            </div>
-            <div class="product-sizes" aria-label="Available sizes">
-              <span class="size-chip">S</span><span class="size-chip">M</span><span class="size-chip">L</span><span class="size-chip">XL</span>
-            </div>
-            <a href="https://ig.me/m/striffdrip" target="_blank" rel="noopener noreferrer" class="product-dm-btn">
-              <span>DM to Buy / Check Availability</span>
-            </a>
-          </div>
-        </article>
-
-      </div>
-
-      <div class="products-footer">
-        <span class="products-footer-note">More drops posted daily on Instagram</span>
-        <a href="https://www.instagram.com/striffdrip" target="_blank" rel="noopener noreferrer" class="btn-ghost">
-          <span>View All on @striffdrip</span>
-          <span aria-hidden="true">↗</span>
-        </a>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════════
-       POLICY
-  ══════════════════════════════════════════════ -->
-  <section id="policy" aria-label="Buying Procedure and Policy">
-    <div class="container">
-
-      <div class="section-header">
-        <p class="label reveal">Before You Order</p>
-        <h2 class="section-title reveal reveal-delay-1">BUYING<br>POLICY</h2>
-        <p class="section-desc reveal reveal-delay-2">
-          Read carefully before placing an order. These rules exist to keep things smooth for everyone.
-        </p>
-      </div>
-
-      <div class="policy-grid" role="list">
-
-        <div class="policy-card reveal" role="listitem">
-          <div class="policy-number" aria-hidden="true">01</div>
-          <div class="policy-icon-wrap" aria-hidden="true">📩</div>
-          <h3 class="policy-title">Buying Procedure</h3>
-          <p class="policy-rule">
-            To purchase, click the <strong>"DM to Buy"</strong> button on any product — it opens a direct Instagram DM to <strong>@striffdrip</strong>.<br><br>
-            Alternatively, comment <strong>"BOOK"</strong> directly on that item's post on our Instagram page. Mention your size in the comment or DM.
-          </p>
-        </div>
-
-        <div class="policy-card reveal reveal-delay-1" role="listitem">
-          <div class="policy-number" aria-hidden="true">02</div>
-          <div class="policy-icon-wrap" aria-hidden="true">💳</div>
-          <h3 class="policy-title">Payment Policy</h3>
-          <p class="policy-rule">
-            <strong>Prepaid orders only.</strong> We accept UPI, GPay, PhonePe, Paytm, and bank transfers.<br><br>
-            <strong>Cash on Delivery (COD) is strictly not available.</strong> Orders are processed only after full payment confirmation.
-          </p>
-        </div>
-
-        <div class="policy-card reveal reveal-delay-2" role="listitem">
-          <div class="policy-number" aria-hidden="true">03</div>
-          <div class="policy-icon-wrap" aria-hidden="true">📋</div>
-          <h3 class="policy-title">Product Details & Pricing</h3>
-          <p class="policy-rule">
-            Prices shown here are indicative. For <strong>complete product details, exact sizing measurements, and final pricing</strong>, please refer to the specific item's full caption on our Instagram page <strong>@striffdrip</strong>.<br><br>
-            Always read the caption carefully before ordering.
-          </p>
-        </div>
-
-        <div class="policy-card reveal reveal-delay-3" role="listitem">
-          <div class="policy-number" aria-hidden="true">04</div>
-          <div class="policy-icon-wrap" aria-hidden="true">🚫</div>
-          <h3 class="policy-title">Return & Cancellation Policy</h3>
-          <p class="policy-rule">
-            We strictly enforce a <strong>NO RETURNS, NO CANCELLATIONS, and NO EXCHANGES</strong> policy.<br><br>
-            Please <strong>verify your size carefully</strong> before booking. Refer to the size chart in the Instagram post caption. Once payment is made, the order is final.
-          </p>
-          <div class="policy-warning">
-            <span class="policy-warning-icon" aria-hidden="true">⚠️</span>
-            <p class="policy-warning-text">No exceptions will be made to the no-return policy. Please confirm your size before you book.</p>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════════
-       INSTAGRAM CTA BAND
-  ══════════════════════════════════════════════ -->
-  <div class="ig-band" role="complementary" aria-label="Follow on Instagram">
-    <div class="ig-band-inner">
-      <div>
-        <p class="ig-band-text">See Every Drop Live</p>
-        <p class="ig-band-handle">@striffdrip</p>
-      </div>
-      <a href="https://www.instagram.com/striffdrip" target="_blank" rel="noopener noreferrer" class="btn-ig" aria-label="Follow @striffdrip on Instagram">
-        <svg class="ig-logo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-        </svg>
-        Follow on Instagram
-      </a>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════
-       CONTACT
-  ══════════════════════════════════════════════ -->
-  <section id="contact" aria-label="Contact">
-    <div class="container">
-
-      <div class="section-header">
-        <p class="label reveal">Get in Touch</p>
-        <h2 class="section-title reveal reveal-delay-1">CONTACT<br>US</h2>
-      </div>
-
-      <div class="contact-layout">
-
-        <!-- Contact channels -->
-        <div>
-          <p class="contact-intro reveal">
-            For fastest response, always DM us on Instagram. We reply to every message — usually within a few hours during the day.
-          </p>
-
-          <div class="contact-items" role="list">
-
-            <a href="https://ig.me/m/striffdrip" target="_blank" rel="noopener noreferrer" class="contact-item reveal" role="listitem" aria-label="DM on Instagram">
-              <div class="contact-icon" aria-hidden="true">📸</div>
-              <div class="contact-detail">
-                <span class="contact-type">Instagram (Fastest)</span>
-                <span class="contact-value">@striffdrip</span>
-              </div>
-              <span class="contact-arrow" aria-hidden="true">↗</span>
-            </a>
-
-            <a href="https://wa.me/919506399650" target="_blank" rel="noopener noreferrer" class="contact-item reveal reveal-delay-1" role="listitem" aria-label="WhatsApp us">
-              <div class="contact-icon" aria-hidden="true">💬</div>
-              <div class="contact-detail">
-                <span class="contact-type">WhatsApp</span>
-                <span class="contact-value">+91 95063 99650</span>
-              </div>
-              <span class="contact-arrow" aria-hidden="true">↗</span>
-            </a>
-
-            <a href="mailto:akshatsngh1234@gmail.com" class="contact-item reveal reveal-delay-2" role="listitem" aria-label="Send email">
-              <div class="contact-icon" aria-hidden="true">✉️</div>
-              <div class="contact-detail">
-                <span class="contact-type">Email</span>
-                <span class="contact-value">akshatsngh1234@gmail.com</span>
-              </div>
-              <span class="contact-arrow" aria-hidden="true">↗</span>
-            </a>
-
-            <a href="tel:+919506399650" class="contact-item reveal reveal-delay-3" role="listitem" aria-label="Call us">
-              <div class="contact-icon" aria-hidden="true">📞</div>
-              <div class="contact-detail">
-                <span class="contact-type">Phone</span>
-                <span class="contact-value">+91 95063 99650</span>
-              </div>
-              <span class="contact-arrow" aria-hidden="true">↗</span>
-            </a>
-
-          </div>
-        </div>
-
-        <!-- FAQ accordion -->
-        <div>
-          <p class="label reveal" style="margin-bottom:20px;">Quick Answers</p>
-          <div class="contact-faq reveal reveal-delay-1" role="list">
-
-            <div class="faq-item" role="listitem">
-              <div class="faq-q" role="button" tabindex="0" aria-expanded="false">
-                <span class="faq-q-text">How do I place an order?</span>
-                <span class="faq-chevron" aria-hidden="true">›</span>
-              </div>
-              <div class="faq-a">Click any "DM to Buy" button or comment "BOOK" on the item's Instagram post. We'll confirm your size and send payment details.</div>
-            </div>
-
-            <div class="faq-item" role="listitem">
-              <div class="faq-q" role="button" tabindex="0" aria-expanded="false">
-                <span class="faq-q-text">What payment methods do you accept?</span>
-                <span class="faq-chevron" aria-hidden="true">›</span>
-              </div>
-              <div class="faq-a">UPI (GPay, PhonePe, Paytm), and bank transfers. All orders are prepaid. COD is not available.</div>
-            </div>
-
-            <div class="faq-item" role="listitem">
-              <div class="faq-q" role="button" tabindex="0" aria-expanded="false">
-                <span class="faq-q-text">Do you ship across India?</span>
-                <span class="faq-chevron" aria-hidden="true">›</span>
-              </div>
-              <div class="faq-a">Yes! We ship PAN India. Tracking details are shared once your order is dispatched. Delivery timelines depend on your location.</div>
-            </div>
-
-            <div class="faq-item" role="listitem">
-              <div class="faq-q" role="button" tabindex="0" aria-expanded="false">
-                <span class="faq-q-text">Are all products 100% authentic?</span>
-                <span class="faq-chevron" aria-hidden="true">›</span>
-              </div>
-              <div class="faq-a">Absolutely. Every piece we sell is verified authentic. No replicas, no fakes — ever. Check our Reviews highlight on Instagram for proof.</div>
-            </div>
-
-            <div class="faq-item" role="listitem">
-              <div class="faq-q" role="button" tabindex="0" aria-expanded="false">
-                <span class="faq-q-text">Can I return or exchange a product?</span>
-                <span class="faq-chevron" aria-hidden="true">›</span>
-              </div>
-              <div class="faq-a">No. We have a strict no returns, no cancellations, and no exchanges policy. Please verify your size from the Instagram caption's size chart before booking.</div>
-            </div>
-
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════════
-       FOOTER
-  ══════════════════════════════════════════════ -->
-  <footer role="contentinfo">
-    <div class="container">
-      <div class="footer-inner">
-
-        <div class="footer-brand">
-          <div class="footer-logo">STRIFFDRIP</div>
-          <p class="footer-tagline">
-            Good Crip. Good Drip. Authentic streetwear reseller based in Varanasi, delivering premium wide-leg and baggy denim nationwide.
-          </p>
-          <div class="footer-social" aria-label="Social media links">
-            <a href="https://www.instagram.com/striffdrip" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-            </a>
-            <a href="https://wa.me/919506399650" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="WhatsApp">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-            </a>
-            <a href="mailto:akshatsngh1234@gmail.com" class="social-link" aria-label="Email">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="1"/><path d="m2 4 10 9 10-9"/></svg>
-            </a>
-          </div>
-        </div>
-
-        <div>
-          <p class="footer-col-title">Navigate</p>
-          <nav class="footer-links" aria-label="Footer navigation">
-            <a href="#home">Home</a>
-            <a href="#drops">Latest Drops</a>
-            <a href="#policy">Buying Policy</a>
+    <nav>
+        <div class="nav-logo">STRIFFDRIP</div>
+        <div class="nav-links">
+            <a href="#shop">Shop</a>
+            <a href="#policies">Policies</a>
             <a href="#contact">Contact</a>
-            <a href="https://www.instagram.com/striffdrip" target="_blank" rel="noopener noreferrer">Instagram ↗</a>
-          </nav>
         </div>
+    </nav>
 
-        <div>
-          <p class="footer-col-title">Quick Info</p>
-          <nav class="footer-links" aria-label="Quick information">
-            <a href="#policy">Payment Policy</a>
-            <a href="#policy">Return Policy</a>
-            <a href="https://ig.me/m/striffdrip" target="_blank" rel="noopener noreferrer">DM to Buy ↗</a>
-            <a href="https://wa.me/919506399650" target="_blank" rel="noopener noreferrer">WhatsApp Us ↗</a>
-          </nav>
+    <section class="hero">
+        <div class="hero-sub">// Est. 2024 — Streetwear & Beyond</div>
+        <h1 class="hero-title">Striff<span>Drip ™</span></h1>
+        <p class="hero-desc">Limited drops. No restocks. No regrets. Each piece is one-of-one — when it's gone, it's gone.</p>
+        <a href="#shop" class="cta-btn">Shop The Drip</a>
+    </section>
+
+    <div class="ticker">
+        <div class="ticker-wrap">
+            <span>✦ ONE OF ONE</span>
+            <span>✦ STRIFFDRIP</span>
+            <span>✦ LIMITED DROPS</span>
+            <span>✦ NO RESTOCKS</span>
+            <span>✦ ONE OF ONE</span>
+            <span>✦ STRIFFDRIP</span>
+            <span>✦ LIMITED DROPS</span>
+            <span>✦ NO RESTOCKS</span>
         </div>
-
-      </div>
-
-      <div class="footer-bottom">
-        <p class="footer-copy">© 2026 STRIFFDRIP. All Rights Reserved.</p>
-        <p class="footer-location">📍 Varanasi, India → Shipping Nationwide</p>
-      </div>
-
     </div>
-  </footer>
 
-  <!-- ═══════════════════════════════════════════
-       JAVASCRIPT
-  ══════════════════════════════════════════════ -->
-  <script>
-    'use strict';
+    <section class="catalog-container" id="shop">
+        <div class="section-header">Current Drop</div>
+        <div class="grid" id="product-grid-target">
+            </div>
+    </section>
 
-    /* ── Navbar scroll state ── */
-    const navbar = document.getElementById('navbar');
-    function updateNav() {
-      if (window.scrollY > 40) {
-        navbar.classList.add('scrolled');
-      } else {
-        navbar.classList.remove('scrolled');
-      }
-    }
-    window.addEventListener('scroll', updateNav, { passive: true });
-    updateNav();
+    <section class="policies-section" id="policies">
+        <div class="policies-grid">
+            <div class="policy-box">
+                <h4>How To Buy</h4>
+                <p>Click "DM TO BUY" on any item to open our official Instagram chat. Drop a text specifying the piece you want to lock down.</p>
+            </div>
+            <div class="policy-box">
+                <h4>Shipping & Handling</h4>
+                <p>Orders are dispatched within 24-48 hours. Tracking details will be shared directly to your inbox once shipped.</p>
+            </div>
+            <div class="policy-box">
+                <h4>No Returns/Exchange</h4>
+                <p>Due to the exclusive and limited nature of curated streetwear drops, all sales are final. Check measurements before ordering.</p>
+            </div>
+        </div>
+    </section>
 
-    /* ── Hamburger / mobile menu ── */
-    const hamburger   = document.getElementById('hamburger');
-    const mobileMenu  = document.getElementById('mobileMenu');
-    const mobileLinks = mobileMenu.querySelectorAll('a');
+    <footer id="contact">
+        <div>© 2026 STRIFFDRIP. All Rights Reserved.</div>
+        <div class="contact-info">
+            <span>Ph: 9506399650</span>
+            <a href="mailto:akshatsngh1234@gmail.com">akshatsngh1234@gmail.com</a>
+        </div>
+    </footer>
 
-    function toggleMenu(open) {
-      hamburger.classList.toggle('open', open);
-      hamburger.setAttribute('aria-expanded', String(open));
-      mobileMenu.classList.toggle('open', open);
-      document.body.style.overflow = open ? 'hidden' : '';
-    }
+    <script>
+        // MANAGE YOUR CLOTHES HERE! 
+        // To add an item, add a new row. To delete, remove a row.
+        // Change status to "SOLD OUT" to instantly disable buying buttons!
+        
+        const myProducts = [
+            {
+                title: "Light Wash Wide Baggy Denim",
+                price: "Check IG for Price",
+                image: "https://i.postimg.cc/mD8zYp6v/jeans-placeholder.jpg", 
+                status: "Available" 
+            },
+            {
+                title: "Charcoal Tinted Street Denim",
+                price: "Check IG for Price",
+                image: "https://i.postimg.cc/mD8zYp6v/jeans-placeholder.jpg",
+                status: "SOLD OUT" 
+            },
+            {
+                title: "Vintage Heavyweight Graphic Tee",
+                price: "Check IG for Price",
+                image: "https://i.postimg.cc/mD8zYp6v/jeans-placeholder.jpg",
+                status: "Available"
+            }
+        ];
 
-    hamburger.addEventListener('click', () => {
-      const isOpen = mobileMenu.classList.contains('open');
-      toggleMenu(!isOpen);
-    });
-
-    mobileLinks.forEach(link => {
-      link.addEventListener('click', () => toggleMenu(false));
-    });
-
-    /* Close on outside click */
-    document.addEventListener('click', e => {
-      if (mobileMenu.classList.contains('open') &&
-          !mobileMenu.contains(e.target) &&
-          !hamburger.contains(e.target)) {
-        toggleMenu(false);
-      }
-    });
-
-    /* ── Smooth scroll for anchor links ── */
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          e.preventDefault();
-          const offset = parseInt(getComputedStyle(document.documentElement)
-            .getPropertyValue('--nav-h')) || 68;
-          const top = target.getBoundingClientRect().top + window.scrollY - offset;
-          window.scrollTo({ top, behavior: 'smooth' });
-        }
-      });
-    });
-
-    /* ── Scroll reveal ── */
-    const revealEls = document.querySelectorAll('.reveal');
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-    revealEls.forEach(el => revealObserver.observe(el));
-
-    /* ── Filter tabs ── */
-    const tabs      = document.querySelectorAll('.filter-tab');
-    const cards     = document.querySelectorAll('.product-card[data-category]');
-
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        tabs.forEach(t => {
-          t.classList.remove('active');
-          t.setAttribute('aria-selected', 'false');
+        // ENGINE RUNNING THE GRID AUTOMATICALLY
+        const gridTarget = document.getElementById('product-grid-target');
+        myProducts.forEach(product => {
+            const isSoldOut = product.status.toUpperCase() === "SOLD OUT";
+            const cardElement = document.createElement('div');
+            cardElement.className = `card ${isSoldOut ? 'sold-out' : ''}`;
+            
+            cardElement.innerHTML = `
+                ${isSoldOut ? '<div class="sold-out-badge">SOLD OUT</div>' : ''}
+                <div class="img-container">
+                    <img src="${product.image}" alt="${product.title}">
+                </div>
+                <div class="card-details">
+                    <h3 class="card-title">${product.title}</h3>
+                    <div class="card-price">${product.price}</div>
+                    <a href="https://ig.me/m/striffdrip" target="_blank" class="buy-btn">
+                        ${isSoldOut ? 'SOLD OUT' : 'DM TO BUY'}
+                    </a>
+                </div>
+            `;
+            gridTarget.appendChild(cardElement);
         });
-        tab.classList.add('active');
-        tab.setAttribute('aria-selected', 'true');
-
-        const filter = tab.dataset.filter;
-        cards.forEach(card => {
-          const match = filter === 'all' || card.dataset.category === filter;
-          card.style.display = match ? '' : 'none';
-        });
-      });
-    });
-
-    /* ── FAQ accordion ── */
-    document.querySelectorAll('.faq-q').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const item = btn.closest('.faq-item');
-        const isOpen = item.classList.contains('open');
-
-        /* close all */
-        document.querySelectorAll('.faq-item').forEach(i => {
-          i.classList.remove('open');
-          i.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
-        });
-
-        /* open clicked (if it was closed) */
-        if (!isOpen) {
-          item.classList.add('open');
-          btn.setAttribute('aria-expanded', 'true');
-        }
-      });
-
-      /* Keyboard support */
-      btn.addEventListener('keydown', e => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          btn.click();
-        }
-      });
-    });
-
-    /* ── Active nav link on scroll ── */
-    const sections  = document.querySelectorAll('section[id], div[id]');
-    const navAnchors = document.querySelectorAll('.nav-links a[href^="#"]');
-
-    const sectionObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          navAnchors.forEach(a => a.style.color = '');
-          const active = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
-          if (active) active.style.color = 'var(--white)';
-        }
-      });
-    }, { rootMargin: '-40% 0px -55% 0px' });
-
-    sections.forEach(s => sectionObserver.observe(s));
-  </script>
-
+    </script>
 </body>
 </html>
