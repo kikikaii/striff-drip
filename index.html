@@ -169,22 +169,18 @@
         }
 
         .img-container {
-            width: 100%;
-            padding-top: 125px; /* Premium rectangular layout ratio */
-            position: relative;
-            background-color: #1a1a1a;
-            overflow: hidden;
-        }
+    width: 100%;
+    background-color: #1a1a1a;
+    overflow: hidden;
+}
 
-        .img-container img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s, filter 0.3s;
-        }
+.img-container img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    transition: transform 0.5s, filter 0.3s;
+}
 
         .card:hover .img-container img {
             transform: scale(1.05);
