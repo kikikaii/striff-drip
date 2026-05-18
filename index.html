@@ -172,6 +172,7 @@
     width: 100%;
     background-color: #1a1a1a;
     overflow: hidden;
+    position: relative;
 }
 
 .img-container img {
@@ -179,7 +180,23 @@
     width: 100%;
     height: auto;
     object-fit: contain;
-    transition: transform 0.5s, filter 0.3s;
+    transition: opacity 0.4s ease-in-out, transform 0.5s;
+}
+
+/* The second image hides behind the first one normally */
+.img-container img.back-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+}
+
+/* When hovering or tapping, swap the visibility */
+.card:hover .img-container img.front-img {
+    opacity: 0;
+}
+.card:hover .img-container img.back-img {
+    opacity: 1;
 }
 
         .card:hover .img-container img {
@@ -379,15 +396,15 @@
         const myProducts = [
             {
                 title: "Light Wash Wide Baggy Denim",
-                price: "Check IG for Price",
+                price: "1350",
                 image: "https://i.postimg.cc/Hscq5LLr/IMG-20260518-152900.png", 
                 status: "Available" 
             },
             {
-                title: "Charcoal Tinted Street Denim",
-                price: "Check IG for Price",
+                title: "Hard Boot Chalsea",
+                price: "2000",
                 image: "https://i.postimg.cc/mD8zYp6v/jeans-placeholder.jpg",
-                status: "SOLD OUT" 
+                status: "AVAILABLE" 
             },
             {
                 title: "Vintage Heavyweight Graphic Tee",
@@ -407,8 +424,9 @@
             cardElement.innerHTML = `
                 ${isSoldOut ? '<div class="sold-out-badge">SOLD OUT</div>' : ''}
                 <div class="img-container">
-                    <img src="${product.image}" alt="${product.title}">
-                </div>
+    <img src="${product.image}" class="front-img" alt="${product.title}">
+    <img src="${product.imageBack || product.image}" class="back-img" alt="${product.title}">
+</div>
                 <div class="card-details">
                     <h3 class="card-title">${product.title}</h3>
                     <div class="card-price">${product.price}</div>
