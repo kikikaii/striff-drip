@@ -403,8 +403,8 @@
             {
     title: "Premium Archive Leather Boots",
     price: "Check IG for Price",
-    image: "PASTE_POSTIMAGES_DIRECT_LINK_FOR_ANGLE_A",
-    imageBack: "PASTE_POSTIMAGES_DIRECT_LINK_FOR_ANGLE_B",
+    image: "https://i.postimg.cc/43wGwN9T/Screenshot-2026-04-16-20-10-55-014-edit-com-instagram-android.jpg",
+    imageBack: "https://i.postimg.cc/Kzz2WSn6/Screenshot-2026-04-16-20-10-49-229-edit-com-instagram-android.jpg",
     status: "Available"
 }
                 title: "Vintage Heavyweight Graphic Tee",
@@ -415,28 +415,29 @@
         ];
 
         // ENGINE RUNNING THE GRID AUTOMATICALLY
-        const gridTarget = document.getElementById('product-grid-target');
-        myProducts.forEach(product => {
-            const isSoldOut = product.status.toUpperCase() === "SOLD OUT";
-            const cardElement = document.createElement('div');
-            cardElement.className = `card ${isSoldOut ? 'sold-out' : ''}`;
-            
-            cardElement.innerHTML = `
-                ${isSoldOut ? '<div class="sold-out-badge">SOLD OUT</div>' : ''}
-                <div class="img-container">
-    <img src="${product.image}" class="front-img" alt="${product.title}">
-    <img src="${product.imageBack || product.image}" class="back-img" alt="${product.title}">
-</div>
-                <div class="card-details">
-                    <h3 class="card-title">${product.title}</h3>
-                    <div class="card-price">${product.price}</div>
-                    <a href="https://ig.me/m/striffdrip" target="_blank" class="buy-btn">
-                        ${isSoldOut ? 'SOLD OUT' : 'DM TO BUY'}
-                    </a>
-                </div>
-            `;
-            gridTarget.appendChild(cardElement);
-        });
-    </script>
+const gridTarget = document.getElementById('product-grid-target');
+myProducts.forEach(product => {
+    const isSoldOut = product.status.toUpperCase() === "SOLD OUT";
+    const cardElement = document.createElement('div');
+    cardElement.className = card ${isSoldOut ? 'sold-out' : ''};
+    
+    cardElement.innerHTML = 
+        ${isSoldOut ? '<div class="sold-out-badge">SOLD OUT</div>' : ''}
+        <div class="img-container">
+            <img src="${product.image}" class="front-img" alt="${product.title}">
+            <img src="${product.imageBack || product.image}" class="back-img" alt="${product.title}">
+        </div>
+        <div class="card-details">
+            <h3 class="card-title">${product.title}</h3>
+            <div class="card-price">${product.price}</div>
+            <a href="https://ig.me/m/striffdrip" target="_blank" class="buy-btn">
+                ${isSoldOut ? 'SOLD OUT' : 'DM TO BUY'}
+            </a>
+        </div>
+    ;
+    
+    gridTarget.appendChild(cardElement);
+});
+</script>
 </body>
 </html>
