@@ -183,7 +183,7 @@
             transition: opacity 0.4s ease-in-out, transform 0.5s;
         }
 
-        /* The second image hides behind the first one normally */
+        /* The second image hides behind the first one naturally */
         .img-container img.back-img {
             position: absolute;
             top: 0;
@@ -391,62 +391,57 @@
 
     <script>
     // MANAGE YOUR CLOTHES HERE!
-    // To add an item, add a new row. To delete, remove a row.
-    // Change status to "SOLD OUT" to instantly disable buying buttons!
-
-  const myProducts = [
-       {
+    const myProducts = [
+        {
             title: "Light Wash Wide Baggy Denim",
-            price: "₹ 1350",
-            image: "https://i.postimg.cc/Hscq5LLr/IMG-20260518-152900.png",
+            price: "1350",
+            image: "https://i.postimg.cc/HscqSLLr/IMG-20260518-152900.png",
             status: "Available"
         },
         {
             title: "Premium Archive Leather Boots",
-            price: "₹ 2000",
+            price: "2000",
             image: "https://i.postimg.cc/43wGwN9T/Screenshot-2026-04-16-20-10-55-014-edit-com-instagram-android.jpg",
             imageBack: "https://i.postimg.cc/Kzz2WSn6/Screenshot-2026-04-16-20-10-49-229-edit-com-instagram-android.jpg",
             status: "Available"
         },
         {
-    title: "Ralph Lauren Vintage Denim Shirt",
-    price: "2000",
-    image: "https://i.postimg.cc/Qx6tm3vR/thriftredex-in-e48fb9d502484eadba19c263e9a605ee.jpg",
-    imageBack: "https://i.postimg.cc/L8bJ9pTx/thriftredex-in-59102801301e44e4a73759733c3a2a4e.jpg",
-    status: "Available"
-},
-
-         {
+            title: "Ralph Lauren Vintage Denim Shirt",
+            price: "2000",
+            image: "https://i.postimg.cc/Qx6tm3vR/thriftredex-in-e48fb9d502484eadba19c263e9a605ee.jpg",
+            imageBack: "https://i.postimg.cc/L8bJ9pTx/thriftredex-in-59102801301e44e4a73759733c3a2a4e.jpg",
+            status: "Available"
+        },
+        {
             title: "4gm pure silver Bracelet",
-            price: "₹ 1500",
+            price: "1500",
             image: "https://i.postimg.cc/9FJrBF15/IMG-20260518-195410.png",
             status: "Available"
         },
- {
+        {
             title: "GREEN DUSK WASH WIDE",
-            price: "₹ 1350",
+            price: "1350",
             image: "https://i.postimg.cc/qBYkBhmm/IMG-20260518-210939.png",
             status: "Available"
         },
-          {
+        {
             title: "GREEN WHISKER WIDE",
-            price: "₹ 1350",
+            price: "1350",
             image: "https://i.postimg.cc/SN2cj9kt/IMG-20260506-223527.png",
             status: "Available"
-        },
-
+        }
     ];
 
     // ENGINE RUNNING THE GRID AUTOMATICALLY
     const gridTarget = document.getElementById('product-grid-target');
-    
+   
     if (gridTarget) {
         myProducts.forEach(product => {
             const isSoldOut = product.status.toUpperCase() === "SOLD OUT";
             const cardElement = document.createElement('div');
-            cardElement.className = card ${isSoldOut ? 'sold-out' : ''};
-            
-            cardElement.innerHTML = 
+            cardElement.className = `card ${isSoldOut ? 'sold-out' : ''}`;
+           
+            cardElement.innerHTML = `
                 ${isSoldOut ? '<div class="sold-out-badge">SOLD OUT</div>' : ''}
                 <div class="img-container">
                     <img src="${product.image}" class="front-img" alt="${product.title}">
@@ -459,11 +454,12 @@
                         ${isSoldOut ? 'SOLD OUT' : 'DM TO BUY'}
                     </a>
                 </div>
-            ;
-            
+            `;
+           
             gridTarget.appendChild(cardElement);
         });
     }
 </script>
 </body>
 </html>
+
