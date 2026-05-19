@@ -227,24 +227,27 @@
             margin-bottom: 20px;
         }
 
+        /* HIGH POWER NEON BUY BUTTON */
         .buy-btn {
             display: block;
             text-align: center;
-            background-color: transparent;
-            color: #fff;
-            border: 1px solid #fff;
+            background-color: #ccff00;
+            color: #000000;
+            border: 1px solid #ccff00;
             padding: 12px;
-            font-weight: bold;
+            font-weight: 900;
             text-transform: uppercase;
             text-decoration: none;
             font-size: 0.85rem;
             margin-top: auto;
-            transition: all 0.3s;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 0 10px rgba(204, 255, 0, 0.2);
         }
 
         .buy-btn:hover {
-            background-color: #fff;
-            color: #000;
+            background-color: transparent;
+            color: #ccff00;
+            box-shadow: 0 0 20px rgba(204, 255, 0, 0.5);
         }
 
         /* AUTOMATIC SOLD OUT RESTRAINT STYLES */
@@ -258,6 +261,7 @@
             border-color: #222 !important;
             pointer-events: none;
             cursor: not-allowed;
+            box-shadow: none !important;
         }
 
         .sold-out-badge {
@@ -303,28 +307,58 @@
             line-height: 1.6;
         }
 
-        /* Footer / Contact Details */
+        /* FOOTER & HYPER-INTERACTIVE CONTACT TARGETS */
         footer {
             max-width: 1200px;
-            margin: 60px auto 0 auto;
-            padding: 0 40px;
+            margin: 80px auto 0 auto;
+            padding: 40px;
+            border: 1px dashed #333;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 20px;
-            color: #555;
-            font-size: 0.85rem;
+            gap: 30px;
+            background-color: #0d0d0d;
         }
 
-        .contact-info a {
-            color: #888;
+        .bite-sticker {
+            color: #ff0055; 
+            font-weight: 900; 
+            margin-top: 8px; 
+            letter-spacing: 1.5px; 
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            animation: pulse-glow 2s infinite ease-in-out;
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .contact-card {
+            display: inline-block;
+            background: #111;
+            border: 1px solid #222;
+            padding: 12px 20px;
+            color: #fff;
             text-decoration: none;
-            margin-left: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            transition: transform 0.2s, border-color 0.3s;
         }
 
-        .contact-info a:hover {
+        .contact-card:hover {
+            border-color: #ccff00;
+            transform: translateY(-3px);
             color: #ccff00;
+        }
+
+        @keyframes pulse-glow {
+            0% { opacity: 0.6; text-shadow: 0 0 0px rgba(255,0,85,0); }
+            50% { opacity: 1; text-shadow: 0 0 10px rgba(255,0,85,0.5); }
+            100% { opacity: 0.6; text-shadow: 0 0 0px rgba(255,0,85,0); }
         }
     </style>
 </head>
@@ -367,25 +401,28 @@
     <section class="policies-section" id="policies">
         <div class="policies-grid">
             <div class="policy-box">
-                <h4>How To Buy</h4>
-                <p>Click "DM TO BUY" on any item to open our official Instagram chat. Drop a text specifying the piece you want to lock down.</p>
+                <h4>⚡ How To Buy</h4>
+                <p>Click "DM TO BUY" on any item to open our official Instagram chat. Drop a text specifying the piece you want to lock down. Fast responses only.</p>
             </div>
             <div class="policy-box">
-                <h4>Shipping & Handling</h4>
-                <p>Orders are dispatched within 24-48 hours. Tracking details will be shared directly to your inbox once shipped.</p>
+                <h4>📦 Shipping & Handling</h4>
+                <p>Orders are packaged securely and dispatched within 24-48 hours. Tracking details will be shared directly to your inbox once shipped.</p>
             </div>
             <div class="policy-box">
-                <h4>No Returns/Exchange</h4>
-                <p>Due to the exclusive and limited nature of curated streetwear drops, all sales are final. Check measurements before ordering.</p>
+                <h4>🔒 No Returns / Final Sale</h4>
+                <p>Due to the exclusive, highly curated nature of our drops, all sales are strictly final. Double-check measurements before ordering.</p>
             </div>
         </div>
     </section>
 
     <footer id="contact">
-        <div>© 2026 STRIFFDRIP. All Rights Reserved.</div>
+        <div>
+            <div style="color: #666; font-size: 0.85rem;">© 2026 STRIFFDRIP. All Rights Reserved.</div>
+            <div class="bite-sticker">✦ GET IN TOUCH — WE DON'T BITE ✦</div>
+        </div>
         <div class="contact-info">
-            <span>Ph: 9506399650</span>
-            <a href="mailto:akshatsngh1234@gmail.com">akshatsngh1234@gmail.com</a>
+            <a href="tel:9506399650" class="contact-card">📞 Call: +91 9506399650</a>
+            <a href="mailto:akshatsngh1234@gmail.com" class="contact-card">✉️ Email Us</a>
         </div>
     </footer>
 
@@ -395,7 +432,7 @@
         {
             title: "Light Wash Wide Baggy Denim",
             price: "1350",
-            image: "https://i.postimg.cc/Hscq5LLr/IMG-20260518-152900.png",
+            image: "https://i.postimg.cc/HscqSLLr/IMG-20260518-152908.png",
             status: "Available"
         },
         {
@@ -462,4 +499,3 @@
 </script>
 </body>
 </html>
-
