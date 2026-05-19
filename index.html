@@ -394,8 +394,8 @@
     // To add an item, add a new row. To delete, remove a row.
     // Change status to "SOLD OUT" to instantly disable buying buttons!
 
-    const myProducts = [
-        {
+  const myProducts = [
+       {
             title: "Light Wash Wide Baggy Denim",
             price: "₹ 1350",
             image: "https://i.postimg.cc/Hscq5LLr/IMG-20260518-152900.png",
@@ -411,8 +411,8 @@
         {
     title: "Ralph Lauren Vintage Denim Shirt",
     price: "2000",
-    image: "https://i.postimg.cc/zX76Lg8G/1000150357.jpg",
-    imageBack: "https://i.postimg.cc/J0vH5dM5/1000150360.jpg",
+    image: "https://i.postimg.cc/Qx6tm3vR/thriftredex-in-e48fb9d502484eadba19c263e9a605ee.jpg",
+    imageBack: "https://i.postimg.cc/L8bJ9pTx/thriftredex-in-59102801301e44e4a73759733c3a2a4e.jpg",
     status: "Available"
 },
 
@@ -435,33 +435,35 @@
             status: "Available"
         },
 
-        
     ];
 
     // ENGINE RUNNING THE GRID AUTOMATICALLY
     const gridTarget = document.getElementById('product-grid-target');
-    myProducts.forEach(product => {
-        const isSoldOut = product.status.toUpperCase() === "SOLD OUT";
-        const cardElement = document.createElement('div');
-        cardElement.className = `card ${isSoldOut ? 'sold-out' : ''}`;
-        
-        cardElement.innerHTML = `
-            ${isSoldOut ? '<div class="sold-out-badge">SOLD OUT</div>' : ''}
-            <div class="img-container">
-                <img src="${product.image}" class="front-img" alt="${product.title}">
-                <img src="${product.imageBack || product.image}" class="back-img" alt="${product.title}">
-            </div>
-            <div class="card-details">
-                <h3 class="card-title">${product.title}</h3>
-                <div class="card-price">${product.price}</div>
-                <a href="https://ig.me/m/striffdrip" target="_blank" class="buy-btn">
-                    ${isSoldOut ? 'SOLD OUT' : 'DM TO BUY'}
-                </a>
-            </div>
-        `;
-        
-        gridTarget.appendChild(cardElement);
-    });
+    
+    if (gridTarget) {
+        myProducts.forEach(product => {
+            const isSoldOut = product.status.toUpperCase() === "SOLD OUT";
+            const cardElement = document.createElement('div');
+            cardElement.className = card ${isSoldOut ? 'sold-out' : ''};
+            
+            cardElement.innerHTML = 
+                ${isSoldOut ? '<div class="sold-out-badge">SOLD OUT</div>' : ''}
+                <div class="img-container">
+                    <img src="${product.image}" class="front-img" alt="${product.title}">
+                    <img src="${product.imageBack || product.image}" class="back-img" alt="${product.title}">
+                </div>
+                <div class="card-details">
+                    <h3 class="card-title">${product.title}</h3>
+                    <div class="card-price">₹ ${product.price}</div>
+                    <a href="https://ig.me/m/striffdrip" target="_blank" class="buy-btn">
+                        ${isSoldOut ? 'SOLD OUT' : 'DM TO BUY'}
+                    </a>
+                </div>
+            ;
+            
+            gridTarget.appendChild(cardElement);
+        });
+    }
 </script>
 </body>
 </html>
