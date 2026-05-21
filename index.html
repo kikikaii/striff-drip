@@ -25,6 +25,8 @@
             padding-bottom: 60px;
             overflow-x: hidden;
             position: relative;
+            /* Hide default cursor on desktop to allow custom crosshair matrix */
+            cursor: none;
         }
 
         /* --- PREMIUM BRAND SCROLLBAR --- */
@@ -40,6 +42,65 @@
         }
         ::-webkit-scrollbar-thumb:hover {
             background: #ccff00;
+        }
+
+        /* PREMIUM DYNAMIC GRAPHIC CURSOR */
+        #custom-cursor {
+            width: 8px;
+            height: 8px;
+            background-color: #ccff00;
+            border-radius: 50%;
+            position: fixed;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 10000;
+            mix-blend-mode: difference;
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        #custom-cursor-ring {
+            width: 30px;
+            height: 30px;
+            border: 1px dashed rgba(204, 255, 0, 0.4);
+            border-radius: 50%;
+            position: fixed;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9999;
+            /* Gives smooth inertia lag effect */
+            transition: transform 0.08s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* Cursor hover scaling */
+        .cursor-hovering #custom-cursor {
+            width: 24px;
+            height: 24px;
+            background-color: transparent;
+            border: 2px solid #ccff00;
+        }
+        .cursor-hovering #custom-cursor-ring {
+            width: 44px;
+            height: 44px;
+            border: 1px solid #ff0055;
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+
+        /* --- EDITORIAL KINETIC WATERMARK --- */
+        .bg-watermark {
+            position: fixed;
+            top: 25%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 14vw;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.015);
+            text-transform: uppercase;
+            z-index: -1;
+            user-select: none;
+            pointer-events: none;
+            white-space: nowrap;
+            letter-spacing: -5px;
+            border-bottom: 2px dashed rgba(255, 255, 255, 0.005);
         }
 
         /* Navbar */
@@ -736,7 +797,16 @@
 
         .contact-card:hover { border-color: #ccff00; transform: translateY(-3px); color: #ccff00; }
 
+        @keyframes pulse-glow {
+            0% { opacity: 0.6; text-shadow: 0 0 0px rgba(255,0,85,0); }
+            50% { opacity: 1; text-shadow: 0 0 10px rgba(255,0,85,0.5); }
+            100% { opacity: 0.6; text-shadow: 0 0 0px rgba(255,0,85,0); }
+        }
+
+        /* Mobile adjustments to hide custom cursor desktop rules */
         @media (max-width: 768px) {
+            body { cursor: auto; }
+            #custom-cursor, #custom-cursor-ring { display: none !important; }
             nav { padding: 20px; }
             .hero { padding: 60px 20px; }
             .utility-row { padding: 0 20px; }
@@ -749,6 +819,11 @@
     </style>
 </head>
 <body>
+
+    <div id="custom-cursor"></div>
+    <div id="custom-cursor-ring"></div>
+
+    <div class="bg-watermark">DROP 001</div>
 
     <nav>
         <div class="nav-logo" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">STRIFFDRIP</div>
@@ -844,7 +919,6 @@
     </footer>
 
     <script>
-    // MANAGE YOUR CLOTHES HERE!
     const myProducts = [
         {
             id: "piece_01",
@@ -892,7 +966,6 @@
         }
     ];
 
-    // State Variables for Cart Engine
     let userCart = [];
     let isPageLoading = true; 
 
@@ -903,7 +976,36 @@
     const cartShield = document.getElementById('cart-shield');
     const cartTriggerEl = document.getElementById('main-cart-trigger');
 
-    // PREMIUM SKELETON INJECTION
+    // DYNAMIC INTERTIA CURSOR LOGIC SYSTEM
+    const cursorDot = document.getElementById('custom-cursor');
+    const cursorRing = document.getElementById('custom-cursor-ring');
+
+    if (window.innerWidth > 768) {
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            // Dot follows exactly
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            // Ring follows with slight transition delay (inertia) set via CSS
+            cursorRing.style.left = `${posX}px`;
+            cursorRing.style.top = `${posY}px`;
+        });
+
+        // Add interactive expansions when cursor elements roll over active elements
+        const updateHoverState = () => {
+            const targets = document.querySelectorAll('button, a, .card, input, .nav-logo');
+            targets.forEach(el => {
+                el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hovering'));
+                el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hovering'));
+            });
+        };
+        // Run immediately and also hook it to product load phases
+        setTimeout(updateHoverState, 2000);
+    }
+
     function displaySkeletons() {
         if (!gridTarget) return;
         gridTarget.innerHTML = "";
@@ -932,18 +1034,14 @@
         }
     }
 
-    // PREMIUM MICRO-INTERACTION FEEDBACK ENGINE
     function triggerCartGlitchAnimation() {
         if (!cartTriggerEl) return;
         cartTriggerEl.classList.remove('glitch-shake');
-        void cartTriggerEl.offsetWidth; // Force DOM browser reflow calculation
+        void cartTriggerEl.offsetWidth; 
         cartTriggerEl.classList.add('glitch-shake');
-        setTimeout(() => {
-            cartTriggerEl.classList.remove('glitch-shake');
-        }, 400);
+        setTimeout(() => { cartTriggerEl.classList.remove('glitch-shake'); }, 400);
     }
 
-    // Add product to cart with localStorage synchronization
     function addToCart(productId) {
         const productData = myProducts.find(p => p.id === productId);
         if(!productData) return;
@@ -960,18 +1058,14 @@
         toggleCart(true); 
     }
 
-    // Modify specific item quantities directly from within the drawer
     function adjustQuantity(productId, modifier) {
         const targetItem = userCart.find(item => item.id === productId);
         if (!targetItem) return;
 
         targetItem.quantity += modifier;
-
-        // Automatically clean out item if it falls to 0
         if (targetItem.quantity <= 0) {
             userCart = userCart.filter(item => item.id !== productId);
         }
-
         saveAndSyncCart();
     }
 
@@ -980,7 +1074,6 @@
         saveAndSyncCart();
     }
 
-    // PREMIUM LOCALSTORAGE PERSISTENCE ROUTINES
     function saveAndSyncCart() {
         localStorage.setItem('striffdrip_bag_cache', JSON.stringify(userCart));
         updateCartUI();
@@ -998,14 +1091,12 @@
         }
     }
 
-    // Synchronize current arrays with DOM elements
     function updateCartUI() {
         const cartTarget = document.getElementById('cart-items-target');
         const navCount = document.getElementById('nav-cart-count');
         const totalTarget = document.getElementById('cart-total-price');
         
         if(!cartTarget) return;
-
         cartTarget.innerHTML = "";
         let totalSum = 0;
         let totalItemsCount = 0;
@@ -1023,7 +1114,6 @@
                         <div class="cart-item-info">
                             <div class="cart-item-title">${item.title}</div>
                             <div class="cart-item-price">₹ ${item.price}</div>
-                            
                             <div class="qty-controls">
                                 <button class="qty-btn" onclick="adjustQuantity('${item.id}', -1)">–</button>
                                 <span class="qty-val">${item.quantity}</span>
@@ -1040,7 +1130,6 @@
         if (totalTarget) totalTarget.innerText = `₹ ${totalSum}`;
     }
 
-    // COMPILED MULTI-ITEM DM CLIPBOARD EXECUTOR
     function executeCheckout() {
         if(userCart.length === 0) {
             alert("Your bag is empty! Add pieces to the drop catalog first.");
@@ -1114,6 +1203,15 @@
                 btn.addEventListener('click', () => addToCart(product.id));
             }
         });
+
+        // Re-bind cursor triggers for newly generated elements
+        if (window.innerWidth > 768) {
+            const targets = document.querySelectorAll('button, a, .card, input');
+            targets.forEach(el => {
+                el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hovering'));
+                el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hovering'));
+            });
+        }
     }
 
     if (searchInput) {
@@ -1122,9 +1220,9 @@
         });
     }
 
-    // INITIALIZATION PIPELINE
+    // INITIALIZATION
     displaySkeletons();
-    loadSavedCartCache(); // Instantly pull up cache files while skeleton page runs
+    loadSavedCartCache(); 
 
     setTimeout(() => {
         isPageLoading = false; 
