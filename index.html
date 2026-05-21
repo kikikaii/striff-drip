@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>STRIFFDRIP | STREETWEAR & BEYOND</title>
     <style>
-        /* Premium Streetwear Styling matching your exact UI */
+        /* --- HIGH-FASHION EDITORIAL BASE RESET --- */
         * {
             margin: 0;
             padding: 0;
@@ -25,8 +25,7 @@
             padding-bottom: 60px;
             overflow-x: hidden;
             position: relative;
-            /* Hide default cursor on desktop to allow custom crosshair matrix */
-            cursor: none;
+            cursor: none; /* Desktop Custom Matrix Cursor */
         }
 
         /* --- PREMIUM BRAND SCROLLBAR --- */
@@ -67,11 +66,10 @@
             transform: translate(-50%, -50%);
             pointer-events: none;
             z-index: 9999;
-            /* Gives smooth inertia lag effect */
             transition: transform 0.08s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        /* Cursor hover scaling */
+        /* Cursor Hover States */
         .cursor-hovering #custom-cursor {
             width: 24px;
             height: 24px;
@@ -85,7 +83,7 @@
             transform: translate(-50%, -50%) rotate(45deg);
         }
 
-        /* --- EDITORIAL KINETIC WATERMARK --- */
+        /* EDITORIAL BG WATERMARK */
         .bg-watermark {
             position: fixed;
             top: 25%;
@@ -103,7 +101,7 @@
             border-bottom: 2px dashed rgba(255, 255, 255, 0.005);
         }
 
-        /* Navbar */
+        /* Navbar Layout */
         nav {
             display: flex;
             justify-content: space-between;
@@ -145,7 +143,6 @@
             color: #ccff00;
         }
 
-        /* Interactive Cart Icon Trigger */
         .cart-trigger {
             background: none;
             border: none;
@@ -176,7 +173,7 @@
             transition: transform 0.1s ease;
         }
 
-        /* MICRO-INTERACTION GLITCH SHAKE ANIMATION */
+        /* TECH MICRO-SHAKE GLITCH */
         .glitch-shake {
             animation: tech-shake 0.35s cubic-bezier(.36,.07,.19,.97) both;
         }
@@ -188,7 +185,7 @@
             40%, 60% { transform: translate3d(5px, 0, 0); color: #ccff00; }
         }
 
-        /* Hero Landing Section */
+        /* Hero Layout */
         .hero {
             padding: 100px 40px;
             max-width: 1200px;
@@ -252,7 +249,7 @@
             box-shadow: 0 6px 25px rgba(204, 255, 0, 0.4);
         }
 
-        /* Ticker Marquee Banner */
+        /* Running Text Ticker Banner */
         .ticker {
             background-color: #ccff00;
             color: #000;
@@ -282,56 +279,75 @@
             100% { transform: translate3d(-50%, 0, 0); }
         }
 
-        /* Control Utilities */
+        /* --- HIGH FASHION TYPOGRAPHY UTILITY BLOCK --- */
         .utility-row {
             max-width: 1200px;
-            margin: 0 auto 30px auto;
+            margin: 0 auto 60px auto;
             padding: 0 40px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-end;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 30px;
+        }
+
+        .section-header-block {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .section-subtitle {
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: #444;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+        }
+
+        .section-header {
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            line-height: 1;
+            letter-spacing: -1px;
         }
 
         .search-wrapper {
             position: relative;
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
         }
 
+        /* Flush Editorial Underlined Input */
         .search-bar {
             width: 100%;
-            background: #111;
-            border: 1px solid #222;
-            padding: 12px 15px;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid #1a1a1a;
+            padding: 14px 0px;
             color: #fff;
             text-transform: uppercase;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: bold;
-            letter-spacing: 1px;
-            transition: border-color 0.3s;
+            letter-spacing: 2px;
+            transition: border-color 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         .search-bar:focus {
             outline: none;
-            border-color: #ccff00;
+            border-bottom-color: #ccff00;
         }
 
-        /* Product Catalog Grid Layout */
+        .search-bar::placeholder {
+            color: #333;
+        }
+
+        /* Product Grids */
         .catalog-container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 40px;
-        }
-
-        .section-header {
-            font-size: 2rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-            border-left: 4px solid #ccff00;
-            padding-left: 15px;
         }
 
         .grid {
@@ -340,7 +356,7 @@
             gap: 40px 30px;
         }
 
-        /* --- SKELETON LOADER ANIMATION --- */
+        /* Skeleton Loaders */
         .skeleton-card {
             background: #111;
             border: 1px solid #1a1a1a;
@@ -383,7 +399,7 @@
             100% { background-position: -200% 0; }
         }
 
-        /* Actual Product Cards */
+        /* Product Cards */
         .card {
             background: #111;
             border: 1px solid #1a1a1a;
@@ -461,7 +477,6 @@
             margin-bottom: 20px;
         }
 
-        /* Buy & Add Button Layout UI */
         .buy-btn {
             display: block;
             text-align: center;
@@ -508,7 +523,7 @@
             z-index: 10;
         }
 
-        /* --- PREMIUM SLIDE-OUT CART PANEL LAYOUT --- */
+        /* Side Drawer Cart Panel Architecture */
         .cart-panel {
             position: fixed;
             top: 0;
@@ -565,7 +580,6 @@
             padding-right: 5px;
         }
 
-        /* Individual Line items inside Cart */
         .cart-item {
             display: flex;
             gap: 15px;
@@ -601,7 +615,7 @@
             margin-bottom: 8px;
         }
 
-        /* ADVANCED QUANTITY FLEX MATRIX CONTROLS */
+        /* IN-DRAWER QUANTITY MATRIX CONTROLS */
         .qty-controls {
             display: flex;
             align-items: center;
@@ -683,16 +697,6 @@
             background-color: #b3ff00;
         }
 
-        .cart-empty-msg {
-            color: #444;
-            text-align: center;
-            text-transform: uppercase;
-            font-weight: bold;
-            font-size: 0.85rem;
-            margin-top: 40px;
-        }
-
-        /* Cart Overlay Shield Background */
         .cart-overlay {
             position: fixed;
             top: 0;
@@ -707,7 +711,6 @@
 
         .cart-overlay.open { display: block; }
 
-        /* Custom Toast Notification styling */
         #custom-toast {
             position: fixed;
             bottom: 30px;
@@ -732,7 +735,7 @@
             transform: translateY(0);
         }
 
-        /* Policies & Info Architecture */
+        /* Branding Policies Section */
         .policies-section {
             background-color: #111;
             margin-top: 100px;
@@ -803,7 +806,6 @@
             100% { opacity: 0.6; text-shadow: 0 0 0px rgba(255,0,85,0); }
         }
 
-        /* Mobile adjustments to hide custom cursor desktop rules */
         @media (max-width: 768px) {
             body { cursor: auto; }
             #custom-cursor, #custom-cursor-ring { display: none !important; }
@@ -858,11 +860,12 @@
     </div>
 
     <div class="utility-row">
-        <div>
-            <div class="section-header">Current Drop</div>
+        <div class="section-header-block">
+            <span class="section-subtitle">Drop Archive Collection</span>
+            <h2 class="section-header">Current Pieces</h2>
         </div>
         <div class="search-wrapper">
-            <input type="text" id="product-search" class="search-bar" placeholder="SEARCH DROP ARCHIVE...">
+            <input type="text" id="product-search" class="search-bar" placeholder="TYPE TO ARCHIVE SEARCH...">
         </div>
     </div>
 
@@ -919,6 +922,7 @@
     </footer>
 
     <script>
+    // UNTOUCHED, EXTREMELY SIMPLE PRODUCT ARCHIVE
     const myProducts = [
         {
             id: "piece_01",
@@ -966,6 +970,7 @@
         }
     ];
 
+    // Global Active Controllers
     let userCart = [];
     let isPageLoading = true; 
 
@@ -976,34 +981,26 @@
     const cartShield = document.getElementById('cart-shield');
     const cartTriggerEl = document.getElementById('main-cart-trigger');
 
-    // DYNAMIC INTERTIA CURSOR LOGIC SYSTEM
+    // MOUSE INERTIA TRACKER
     const cursorDot = document.getElementById('custom-cursor');
     const cursorRing = document.getElementById('custom-cursor-ring');
 
     if (window.innerWidth > 768) {
         window.addEventListener('mousemove', (e) => {
-            const posX = e.clientX;
-            const posY = e.clientY;
-
-            // Dot follows exactly
-            cursorDot.style.left = `${posX}px`;
-            cursorDot.style.top = `${posY}px`;
-
-            // Ring follows with slight transition delay (inertia) set via CSS
-            cursorRing.style.left = `${posX}px`;
-            cursorRing.style.top = `${posY}px`;
+            cursorDot.style.left = `${e.clientX}px`;
+            cursorDot.style.top = `${e.clientY}px`;
+            cursorRing.style.left = `${e.clientX}px`;
+            cursorRing.style.top = `${e.clientY}px`;
         });
 
-        // Add interactive expansions when cursor elements roll over active elements
-        const updateHoverState = () => {
+        const updateHoverStateListeners = () => {
             const targets = document.querySelectorAll('button, a, .card, input, .nav-logo');
             targets.forEach(el => {
                 el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hovering'));
                 el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hovering'));
             });
         };
-        // Run immediately and also hook it to product load phases
-        setTimeout(updateHoverState, 2000);
+        setTimeout(updateHoverStateListeners, 2000);
     }
 
     function displaySkeletons() {
@@ -1151,9 +1148,7 @@
                 toast.classList.add('show');
                 setTimeout(() => { toast.classList.remove('show'); }, 2800);
             }
-            setTimeout(() => {
-                window.open('https://ig.me/m/striffdrip', '_blank');
-            }, 400);
+            setTimeout(() => { window.open('https://ig.me/m/striffdrip', '_blank'); }, 400);
         }).catch(err => {
             window.open('https://ig.me/m/striffdrip', '_blank');
         });
@@ -1166,16 +1161,15 @@
         gridTarget.innerHTML = "";
         
         const filtered = myProducts.filter(p => {
-            const productTitle = p.title ? String(p.title).toLowerCase() : "";
-            return productTitle.includes(filterText.toLowerCase());
+            return p.title ? String(p.title).toLowerCase().includes(filterText.toLowerCase()) : false;
         });
 
         if (filtered.length === 0) {
-            gridTarget.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: #555; padding: 40px 0; font-weight: bold; text-transform: uppercase;">No drop found matching that keyword.</div>`;
+            gridTarget.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: #333; padding: 60px 0; font-weight: bold; text-transform: uppercase; letter-spacing: 2px;">No matching item in drop file.</div>`;
             return;
         }
 
-        filtered.forEach((product, index) => {
+        filtered.forEach((product) => {
             const isSoldOut = product.status && product.status.toUpperCase() === "SOLD OUT";
             const cardElement = document.createElement('div');
             cardElement.className = `card ${isSoldOut ? 'sold-out' : ''}`;
@@ -1187,7 +1181,7 @@
                     <img src="${product.imageBack || product.image}" class="back-img" alt="${product.title || 'Product'}">
                 </div>
                 <div class="card-details">
-                    <div class="card-tag">${isSoldOut ? '[ARCHIVE]' : '[IN STOCK]'} // PIECE 00${index + 1}</div>
+                    <div class="card-tag">${isSoldOut ? '[ARCHIVE]' : '[DROP IN STOCK]'}</div>
                     <h3 class="card-title">${product.title || 'UNNAMED PIECE'}</h3>
                     <div class="card-price">₹ ${product.price || 'TBD'}</div>
                     <button class="buy-btn" id="btn-${product.id}" style="border: none;">
@@ -1204,7 +1198,6 @@
             }
         });
 
-        // Re-bind cursor triggers for newly generated elements
         if (window.innerWidth > 768) {
             const targets = document.querySelectorAll('button, a, .card, input');
             targets.forEach(el => {
@@ -1220,7 +1213,7 @@
         });
     }
 
-    // INITIALIZATION
+    // RUNTIME INIT
     displaySkeletons();
     loadSavedCartCache(); 
 
