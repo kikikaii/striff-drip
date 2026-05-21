@@ -112,6 +112,19 @@
             font-weight: 900;
             padding: 2px 6px;
             border-radius: 0;
+            transition: transform 0.1s ease;
+        }
+
+        /* MICRO-INTERACTION GLITCH SHAKE ANIMATION */
+        .glitch-shake {
+            animation: tech-shake 0.35s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        @keyframes tech-shake {
+            10%, 90% { transform: translate3d(-2px, 0, 0); }
+            20%, 80% { transform: translate3d(3px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-5px, 0, 0); border-color: #ff0055; }
+            40%, 60% { transform: translate3d(5px, 0, 0); color: #ccff00; }
         }
 
         /* Hero Landing Section */
@@ -517,19 +530,49 @@
             font-weight: bold;
             text-transform: uppercase;
             color: #fff;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
 
         .cart-item-price {
             font-size: 0.85rem;
             color: #ccff00;
             font-weight: bold;
+            margin-bottom: 8px;
         }
 
-        .cart-item-qty {
-            font-size: 0.75rem;
-            color: #666;
-            margin-top: 2px;
+        /* ADVANCED QUANTITY FLEX MATRIX CONTROLS */
+        .qty-controls {
+            display: flex;
+            align-items: center;
+            gap: 0px;
+            border: 1px solid #222;
+            width: max-content;
+            background: #000;
+        }
+
+        .qty-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            padding: 5px 12px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .qty-btn:hover {
+            background: #ccff00;
+            color: #000;
+        }
+
+        .qty-val {
+            padding: 0 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #fff;
+            border-left: 1px solid #222;
+            border-right: 1px solid #222;
         }
 
         .remove-item-btn {
@@ -541,6 +584,8 @@
             text-transform: uppercase;
             font-weight: bold;
             transition: color 0.3s;
+            margin-left: auto;
+            align-self: flex-end;
         }
 
         .remove-item-btn:hover { color: #ff0055; }
@@ -691,12 +736,6 @@
 
         .contact-card:hover { border-color: #ccff00; transform: translateY(-3px); color: #ccff00; }
 
-        @keyframes pulse-glow {
-            0% { opacity: 0.6; text-shadow: 0 0 0px rgba(255,0,85,0); }
-            50% { opacity: 1; text-shadow: 0 0 10px rgba(255,0,85,0.5); }
-            100% { opacity: 0.6; text-shadow: 0 0 0px rgba(255,0,85,0); }
-        }
-
         @media (max-width: 768px) {
             nav { padding: 20px; }
             .hero { padding: 60px 20px; }
@@ -717,7 +756,7 @@
             <a href="#shop">Shop</a>
             <a href="#policies">Policies</a>
             <a href="#contact">Contact</a>
-            <button class="cart-trigger" onclick="toggleCart(true)">
+            <button class="cart-trigger" id="main-cart-trigger" onclick="toggleCart(true)">
                 Bag <span class="cart-count" id="nav-cart-count">0</span>
             </button>
         </div>
@@ -855,15 +894,16 @@
 
     // State Variables for Cart Engine
     let userCart = [];
-    let isPageLoading = true; // BUG FIX: Track page-load state explicitly
+    let isPageLoading = true; 
 
     const gridTarget = document.getElementById('product-grid-target');
     const searchInput = document.getElementById('product-search');
     const toast = document.getElementById('custom-toast');
     const cartSidebar = document.getElementById('cart-sidebar');
     const cartShield = document.getElementById('cart-shield');
+    const cartTriggerEl = document.getElementById('main-cart-trigger');
 
-    // 1. INJECT THE SKELETON PLUGINS IMMEDIATELY ON INITIALIZATION
+    // PREMIUM SKELETON INJECTION
     function displaySkeletons() {
         if (!gridTarget) return;
         gridTarget.innerHTML = "";
@@ -882,7 +922,6 @@
         }
     }
 
-    // Toggle Cart open state
     function toggleCart(openState) {
         if(openState) {
             cartSidebar.classList.add('open');
@@ -893,7 +932,18 @@
         }
     }
 
-    // Add selected streetwear product to multi-item cart system
+    // PREMIUM MICRO-INTERACTION FEEDBACK ENGINE
+    function triggerCartGlitchAnimation() {
+        if (!cartTriggerEl) return;
+        cartTriggerEl.classList.remove('glitch-shake');
+        void cartTriggerEl.offsetWidth; // Force DOM browser reflow calculation
+        cartTriggerEl.classList.add('glitch-shake');
+        setTimeout(() => {
+            cartTriggerEl.classList.remove('glitch-shake');
+        }, 400);
+    }
+
+    // Add product to cart with localStorage synchronization
     function addToCart(productId) {
         const productData = myProducts.find(p => p.id === productId);
         if(!productData) return;
@@ -905,17 +955,50 @@
             userCart.push({ ...productData, quantity: 1 });
         }
 
-        updateCartUI();
-        toggleCart(true); // Automatically slide out panel when adding item
+        saveAndSyncCart();
+        triggerCartGlitchAnimation();
+        toggleCart(true); 
     }
 
-    // Remove single line items inside cart
+    // Modify specific item quantities directly from within the drawer
+    function adjustQuantity(productId, modifier) {
+        const targetItem = userCart.find(item => item.id === productId);
+        if (!targetItem) return;
+
+        targetItem.quantity += modifier;
+
+        // Automatically clean out item if it falls to 0
+        if (targetItem.quantity <= 0) {
+            userCart = userCart.filter(item => item.id !== productId);
+        }
+
+        saveAndSyncCart();
+    }
+
     function removeFromCart(productId) {
         userCart = userCart.filter(item => item.id !== productId);
+        saveAndSyncCart();
+    }
+
+    // PREMIUM LOCALSTORAGE PERSISTENCE ROUTINES
+    function saveAndSyncCart() {
+        localStorage.setItem('striffdrip_bag_cache', JSON.stringify(userCart));
         updateCartUI();
     }
 
-    // Synchronize arrays with the structural DOM elements
+    function loadSavedCartCache() {
+        const cachedData = localStorage.getItem('striffdrip_bag_cache');
+        if (cachedData) {
+            try {
+                userCart = JSON.parse(cachedData);
+                updateCartUI();
+            } catch (e) {
+                userCart = [];
+            }
+        }
+    }
+
+    // Synchronize current arrays with DOM elements
     function updateCartUI() {
         const cartTarget = document.getElementById('cart-items-target');
         const navCount = document.getElementById('nav-cart-count');
@@ -940,7 +1023,12 @@
                         <div class="cart-item-info">
                             <div class="cart-item-title">${item.title}</div>
                             <div class="cart-item-price">₹ ${item.price}</div>
-                            <div class="cart-item-qty">Qty: ${item.quantity}</div>
+                            
+                            <div class="qty-controls">
+                                <button class="qty-btn" onclick="adjustQuantity('${item.id}', -1)">–</button>
+                                <span class="qty-val">${item.quantity}</span>
+                                <button class="qty-btn" onclick="adjustQuantity('${item.id}', 1)">+</button>
+                            </div>
                         </div>
                         <button class="remove-item-btn" onclick="removeFromCart('${item.id}')">Remove</button>
                     </div>
@@ -948,11 +1036,11 @@
             });
         }
 
-        navCount.innerText = totalItemsCount;
-        totalTarget.innerText = `₹ ${totalSum}`;
+        if (navCount) navCount.innerText = totalItemsCount;
+        if (totalTarget) totalTarget.innerText = `₹ ${totalSum}`;
     }
 
-    // BUNDLED DM CHECKOUT LOGIC (METHOD 1 ADVANCED CLIPBOARD GENERATOR)
+    // COMPILED MULTI-ITEM DM CLIPBOARD EXECUTOR
     function executeCheckout() {
         if(userCart.length === 0) {
             alert("Your bag is empty! Add pieces to the drop catalog first.");
@@ -967,7 +1055,6 @@
             itemStringList += `• ${item.quantity}x ${item.title} (₹${item.price})\n`;
         });
 
-        // Elite dynamic clipboard multi-item compiled message template
         const orderSummaryText = `Yo StriffDrip! I want to buy the following pieces:\n\n${itemStringList}\nTotal Value: ₹${totalSum}\n\nAre these items available to ship?`;
 
         navigator.clipboard.writeText(orderSummaryText).then(() => {
@@ -983,11 +1070,8 @@
         });
     }
    
-    // Render standard catalog layouts safely
     function renderProducts(filterText = "") {
         if (!gridTarget) return;
-        
-        // BUG FIX: Block search render attempts while skeletons are running
         if (isPageLoading && filterText !== "") return;
 
         gridTarget.innerHTML = "";
@@ -1025,7 +1109,6 @@
            
             gridTarget.appendChild(cardElement);
 
-            // BUG FIX: Attach event listeners via JS engine rather than raw string injection to prevent crashing on string spaces/symbols
             const btn = document.getElementById(`btn-${product.id}`);
             if (btn && !isSoldOut) {
                 btn.addEventListener('click', () => addToCart(product.id));
@@ -1039,12 +1122,12 @@
         });
     }
 
-    // INITIALIZATION ROUTINE LOOP
+    // INITIALIZATION PIPELINE
     displaySkeletons();
+    loadSavedCartCache(); // Instantly pull up cache files while skeleton page runs
 
-    // Trigger skeleton loading delay for 1.5 seconds before showing actual inventory list
     setTimeout(() => {
-        isPageLoading = false; // Turn loading phase off safely
+        isPageLoading = false; 
         renderProducts();
     }, 1500);
 </script>
